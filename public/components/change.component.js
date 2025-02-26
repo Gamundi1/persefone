@@ -1,4 +1,4 @@
-class ChangeComponent extends HTMLElement {
+export class ChangeComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -14,5 +14,3 @@ class ChangeComponent extends HTMLElement {
         `;
   }
 }
-
-customElements.define("change-component", ChangeComponent);

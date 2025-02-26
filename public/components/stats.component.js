@@ -1,4 +1,4 @@
-class StatsComponent extends HTMLElement {
+export class StatsComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -14,5 +14,3 @@ class StatsComponent extends HTMLElement {
         `;
   }
 }
-
-customElements.define("stats-component", StatsComponent);

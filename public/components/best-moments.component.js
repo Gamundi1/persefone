@@ -1,4 +1,4 @@
-class BestMomentsComponent extends HTMLElement {
+export class BestMomentsComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -14,5 +14,3 @@ class BestMomentsComponent extends HTMLElement {
         `;
   }
 }
-
-customElements.define("best-moments-component", BestMomentsComponent);
