@@ -4,88 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      * {
-        --provisional-background-color: rgba(128, 128, 128, 0.589);
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        height: 100vh;
-      }
-      header-component {
-        background-color: var(--provisional-background-color);
-        width: 100%;
-        max-width: 1000px;
-        height: 50px;
-        min-height: 50px;
-      }
-      main {
-        width: 100%;
-        max-width: 1000px;
-        min-height: max-content;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(4, 1fr);
-        gap: 13px;
-
-        video {
-          background-color: var(--provisional-background-color);
-          grid-column: 1 / 2;
-          grid-row: 1 / 3;
-          width: 100%;
-          min-width: 500px;
-          height: 300px;
-        }
-
-        change-component {
-          background-color: var(--provisional-background-color);
-          grid-column: 2 / 3;
-          grid-row: 1 / 2;
-        }
-
-        goals-component {
-          background-color: var(--provisional-background-color);
-          grid-column: 2 / 3;
-          grid-row: 2 / 3;
-        }
-
-        poll-component {
-          background-color: var(--provisional-background-color);
-          grid-column: 1 / 2;
-          grid-row: 3 / 4;
-        }
-
-        stats-component {
-          background-color: var(--provisional-background-color);
-          grid-column: 2 / 3;
-          grid-row: 3 / 4;
-        }
-
-        best-moments-component {
-          background-color: var(--provisional-background-color);
-          grid-column: 1 / 3;
-          grid-row: 4 / 5;
-        }
-      }
-      footer-component {
-        background-color: var(--provisional-background-color);
-        width: 100%;
-        max-width: 1000px;
-        height: 50px;
-      }
-    </style>
+    <script src="index.js" type="module"></script>
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
     <header-component></header-component>
     <main>
-      <video src=""></video>
+      <video-component></video-component>
       <change-component></change-component>
       <goals-component></goals-component>
       <poll-component></poll-component>
@@ -93,12 +19,5 @@
       <best-moments-component></best-moments-component>
     </main>
     <footer-component></footer-component>
-    <script src="./components/change.component.js"></script>
-    <script src="./components/goals.component.js"></script>
-    <script src="./components/poll.component.js"></script>
-    <script src="./components/stats.component.js"></script>
-    <script src="./components/best-moments.component.js"></script>
-    <script src="./components/header.component.js"></script>
-    <script src="./components/footer.component.js"></script>
   </body>
 </html>
