@@ -102,7 +102,6 @@ export class GoalsComponent extends HTMLElement {
   set subject(value) {
     this._subject = value;
     this._subject.subscribe((data) => {
-      console.log(data["evento"]);
       if (data.evento === "gol") {
         this.updateScore(data.equipo);
       }
