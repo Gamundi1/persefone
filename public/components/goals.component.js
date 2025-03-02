@@ -99,15 +99,26 @@ export class GoalsComponent extends HTMLElement {
     this.render();
   }
 
+  set subject(value) {
+    this._subject = value;
+    this._subject.subscribe((data) => {
+      console.log(data["evento"]);
+      if (data.evento === "gol") {
+        this.updateScore(data.equipo);
+      }
+    });
+  }
+
   // Método para actualizar los goles desde el backend
-  updateScore(team, newScore) {
+  updateScore(team) {
     if (team === 1) {
-      this.score1 = newScore;
+      this.score1++;
       this.shadow.querySelector("#score1").textContent = this.score1;
     } else if (team === 2) {
-      this.score2 = newScore;
+      this.score2++;
       this.shadow.querySelector("#score2").textContent = this.score2;
     }
+    this.render();
   }
 
   // Método para actualizar las imágenes de los equipos

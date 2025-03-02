@@ -1,4 +1,4 @@
 WEBVTT
 
-00:02:04.000 --> 00:02:05.000
-{"evento": "gol", "jugador": "Greenwood", "equipo": "Manchester"}
+00:02:06.000 --> 00:02:07.000
+{"evento": "gol", "jugador": 26, "equipo": 1}
