@@ -8,8 +8,8 @@ export class VideoComponent extends HTMLElement {
     this.render();
   }
 
-  observedAttributes() {
-    return ["subject"];
+  set subject(value) {
+    this._subject = value;
   }
 
   render() {
@@ -26,6 +26,14 @@ export class VideoComponent extends HTMLElement {
           `;
     this.video = this.shadow.querySelector("video track");
     const track = this.video.track;
-    console.log(track);
+    if (track) {
+      track.mode = "hidden";
+      track.addEventListener("cuechange", () => {
+        const cue = track.activeCues[0];
+        if (cue) {
+          this._subject.next(JSON.parse(cue.text));
+        }
+      });
+    }
   }
 }
