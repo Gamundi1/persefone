@@ -39,7 +39,6 @@
     }
 
     change-component {
-      background-color: var(--provisional-background-color);
       grid-column: 2 / 3;
       grid-row: 1 / 2;
     }
