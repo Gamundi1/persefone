@@ -1,12 +1,13 @@
 export class StatsComponent extends HTMLElement {
   template = () => `
     <section>
+      <img class="team-img" src="${this.team1Img}" alt="Equipo 1">
       <table>
         <tbody>
           <tr>
             <td>${Math.round((this.teamPrecision[0].aciertos / this.teamPrecision[0].total) * 100) | 0}</td>
             <td class="stats-attribute">Precisión</td>
-            <td>${Math.round((this.teamPrecision[0].aciertos / this.teamPrecision[0].total) * 100) | 0}</td>
+            <td>${Math.round((this.teamPrecision[1].aciertos / this.teamPrecision[1].total) * 100) | 0}</td>
           </tr>
           <tr>
             <td>${this.teamShots[0]}</td>
@@ -14,22 +15,30 @@ export class StatsComponent extends HTMLElement {
             <td>${this.teamShots[1]}</td>
           </tr>
           <tr>
-            <td>0</td>
+            <td>${this.teamClearances[0]}</td>
             <td class="stats-attribute">Despejes</td>
-            <td>0</td>
+            <td>${this.teamClearances[1]}</td>
           </tr>
         <tbody>
       </table>
+      <img class="team-img" src="${this.team2Img}" alt="Equipo 1">
     </section>
   `;
 
   style = () => `
   <style>
     section {
+      background-color: #ECDFCC;
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
+      align-items: center;
       width: 100%;
       height: 100%;
+
+      .team-img {
+        width: 80px;
+        height: 80px;
+      }
 
       table {
         width: 290px;
@@ -82,6 +91,8 @@ export class StatsComponent extends HTMLElement {
   ];
   teamShots = [0, 0];
   teamClearances = [0, 0];
+  team1Img = "../assets/manchesterUnited.png"; // URL de la imagen del equipo 1
+  team2Img = "../assets/interMilan.svg"; // URL de la imagen del equipo 1
 
   constructor() {
     super();
