@@ -106,12 +106,12 @@ export class StatsComponent extends HTMLElement {
   set subject(value) {
     this._subject = value;
     this._subject.subscribe((data) => {
-      if (data.evento === "pase") {
+      if (data.evento === "Pase" && data.Succes) {
         this.updatePrecision(data.equipo - 1, data.success);
-      } else if (data.evento === "tiro") {
+      } else if (data.evento === "Tiro" && data.Puerta) {
         this.teamShots[data.equipo - 1]++;
         this.render();
-      } else if (data.evento === "despeje") {
+      } else if (data.evento === "Despeje") {
         this.teamClearances[data.equipo - 1]++;
         this.render();
       }
