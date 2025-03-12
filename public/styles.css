@@ -45,7 +45,6 @@
     }
 
     stats-component {
-      background-color: var(--provisional-background-color);
       grid-column: 2 / 3;
       grid-row: 3 / 4;
     }
