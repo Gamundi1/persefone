@@ -19,6 +19,22 @@ main {
   gap: 5px;
 }
 
+corner-component {
+  height: 148px;
+}
+
+goal-component {
+  height: 148px;
+}
+
+poll-component {
+  height: 148px;
+}
+
+stats-component {
+  height: 148px;
+}
+
 @media (min-width: 560px) {
   main {
     display: grid;
@@ -34,7 +50,7 @@ main {
     grid-row: 1 / 2;
   }
 
-  change-component {
+  corner-component {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
   }
@@ -78,8 +94,7 @@ main {
       grid-row: 1 / 3;
     }
 
-    change-component {
-      background-color: var(--provisional-background-color);
+    corner-component {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
     }

@@ -28,9 +28,12 @@ export class StatsComponent extends HTMLElement {
   style = () => `
   <style>
     section {
-      background-color: #ECDFCC;
+      background-color: #EEE;
       display: flex;
       justify-content: space-around;
+      box-shadow: 5px 5px 0px -1px rgba(68, 0, 255, 0.57);
+      -webkit-box-shadow: 5px 5px 0px -1px rgba(0, 255, 106, 0.57);
+      -moz-box-shadow: 5px 5px 0px -1px rgba(0, 98, 190, 0.57);
       align-items: center;
       width: 100%;
       height: 100%;
@@ -55,26 +58,6 @@ export class StatsComponent extends HTMLElement {
       tr {
         height: 40px;
       }
-
-      tbody tr::before {
-        content:'';
-        position: relative;
-        top: 36px;
-        left: 57px;
-        display: inline-block;
-        border: 5px solid;
-        border-color: transparent transparent black transparent;
-      }
-
-      tbody tr::after {
-        content:'';
-        position: relative;
-        top: 36px;
-        right: 57px;
-        display: inline-block;
-        border: 5px solid;
-        border-color: transparent transparent black transparent;
-      }
     }
   </style>
   `;
@@ -91,8 +74,8 @@ export class StatsComponent extends HTMLElement {
   ];
   teamShots = [0, 0];
   teamClearances = [0, 0];
-  team1Img = "../assets/manchesterUnited.png"; // URL de la imagen del equipo 1
-  team2Img = "../assets/interMilan.svg"; // URL de la imagen del equipo 1
+  team1Img = "../assets/manchesterUnited.png";
+  team2Img = "../assets/interMilan.svg";
 
   constructor() {
     super();

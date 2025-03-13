@@ -1,3 +1,5 @@
+const { filter } = rxjs;
+
 export class GoalsComponent extends HTMLElement {
   template = () => `
     <section class="scoreboard-container">
@@ -101,11 +103,11 @@ export class GoalsComponent extends HTMLElement {
 
   set subject(value) {
     this._subject = value;
-    this._subject.subscribe((data) => {
-      if (data.evento === "gol") {
-        this.updateScore(data.equipo);
-      }
-    });
+    this._subject
+      .pipe(filter((data) => data.evento === "gol"))
+      .subscribe((filteredData) => {
+        this.updateScore(filteredData.equipo);
+      });
   }
 
   // Método para actualizar los goles desde el backend
