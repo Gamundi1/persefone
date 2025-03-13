@@ -26,5 +26,5 @@ videoComponent.subject = subject;
 const goalsComponent = document.querySelector("goals-component");
 goalsComponent.subject = subject;
 
-const changesComponent = document.querySelector("change-component");
-changesComponent.subject = subject;
+const statsComponent = document.querySelector("stats-component");
+statsComponent.subject = subject;
