@@ -29,9 +29,10 @@ export class VideoComponent extends HTMLElement {
     if (track) {
       track.mode = "hidden";
       track.addEventListener("cuechange", () => {
-        const cue = track.activeCues[0];
+        const cue = track.activeCues[0]?.text;
         if (cue) {
-          this._subject.next(JSON.parse(cue.text));
+          console.log("cue", cue);
+          this._subject.next(JSON.parse(cue));
         }
       });
     }

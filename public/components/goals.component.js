@@ -112,10 +112,8 @@ export class GoalsComponent extends HTMLElement {
   updateScore(team) {
     if (team === 1) {
       this.score1++;
-      this.shadow.querySelector("#score1").textContent = this.score1;
     } else if (team === 2) {
       this.score2++;
-      this.shadow.querySelector("#score2").textContent = this.score2;
     }
     this.render();
   }
