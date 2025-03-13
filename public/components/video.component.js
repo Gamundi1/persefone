@@ -20,7 +20,7 @@ export class VideoComponent extends HTMLElement {
                 height: 100%;
                 }
         </style>
-              <video src="../assets/partidoFutbol.mp4" controls>
+              <video src="../assets/partidoFutbol.mp4" controls muted autoplay>
                 <track src="../media/match-info.vtt" kind="metadata"></track>
               </video>
           `;

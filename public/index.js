@@ -28,3 +28,6 @@ goalsComponent.subject = subject;
 
 const statsComponent = document.querySelector("stats-component");
 statsComponent.subject = subject;
+
+const cornerComponent = document.querySelector("corner-component");
+cornerComponent.subject = subject;
