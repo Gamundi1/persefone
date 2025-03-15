@@ -85,20 +85,31 @@ export class GoalsComponent extends HTMLElement {
     </style>
   `;
 
-  constructor() {
-    super();
-    this.shadow = this.attachShadow({ mode: "open" });
+  score1 = 0;
+  score2 = 0;
+  team1Img = "../assets/manchesterUnited.png";
+  team2Img = "../assets/interMilan.svg";
+  imagenfondo = "../assets/fondoCampo.jpg";
 
-    // Estados iniciales del marcador
-    this.team1Img = "../assets/manchesterUnited.png"; // URL de la imagen del equipo 1
-    this.team2Img = "../assets/interMilan.svg"; // URL de la imagen del equipo 2
-    this.imagenfondo = "../assets/fondocampo.jpg"; // URL de la imagen de fondo
+  set teamImages(teamImages) {
+    this.team1Img = teamImages[0];
+    this.team2Img = teamImages[1];
+    this.resetFields();
+    this.render();
+  }
+
+  resetFields() {
     this.score1 = 0;
     this.score2 = 0;
   }
 
-  async connectedCallback() {
+  connectedCallback() {
     this.render();
+  }
+
+  constructor() {
+    super();
+    this.shadow = this.attachShadow({ mode: "open" });
   }
 
   set subject(value) {
@@ -118,15 +129,6 @@ export class GoalsComponent extends HTMLElement {
       this.score2++;
     }
     this.render();
-  }
-
-  // Método para actualizar las imágenes de los equipos
-  updateImages(img1, img2) {
-    this.team1Img = img1;
-    this.team2Img = img2;
-
-    this.shadow.querySelector("#team1-img").src = this.team1Img;
-    this.shadow.querySelector("#team2-img").src = this.team2Img;
   }
 
   render() {

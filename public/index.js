@@ -25,11 +25,7 @@ customElements.define("video-component", VideoComponent);
 const videoCarrouselComponent = document.querySelector(
   "video-carrousel-component"
 );
-
 videoCarrouselComponent.subject = subject;
-videoCarrouselComponent.addEventListener("videoChange", (event) => {
-  console.log(event.detail.team1Url);
-});
 
 const goalsComponent = document.querySelector("goals-component");
 goalsComponent.subject = subject;
@@ -39,3 +35,11 @@ statsComponent.subject = subject;
 
 const cornerComponent = document.querySelector("corner-component");
 cornerComponent.subject = subject;
+
+const pollComponent = document.querySelector("poll-component");
+
+videoCarrouselComponent.addEventListener("videoChange", (event) => {
+  goalsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+  statsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+  pollComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+});

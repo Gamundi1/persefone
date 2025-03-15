@@ -44,6 +44,7 @@ export class VideoCarrouselComponent extends HTMLElement {
   `;
 
   videos = [];
+  nVideos = 0;
   set subject(value) {
     this._subject = value;
     this.shadow.querySelector("video-component").subject = this._subject;
@@ -60,18 +61,20 @@ export class VideoCarrouselComponent extends HTMLElement {
       {
         id: 1,
         src: "../assets/partidoFutbol.mp4",
-        team1Url: "manchesterUnited.png",
-        team2Url: "interMilan.svg",
+        team1Url: "../assets/manchesterUnited.png",
+        team2Url: "../assets/interMilan.svg",
         shown: true,
       },
       {
         id: 2,
         src: "../assets/partidoFutbol.mp4",
-        team1Url: "interMilan.svg",
-        team2Url: "manchesterUnited.png",
+        team1Url: "../assets/interMilan.svg",
+        team2Url: "../assets/manchesterUnited.png",
         shown: false,
       },
     ];
+
+    this.nVideos = this.videos.length;
   }
 
   createVideo(video) {
@@ -86,21 +89,24 @@ export class VideoCarrouselComponent extends HTMLElement {
         ${this.style()}
         ${this.template()}
     `;
-    this.shadow.querySelector(".left").addEventListener("click", () => {
-      const newVideo = this.videos.find((video) => !video.shown);
-      this.videos[newVideo.id % 2].shown = false;
-      this.videos[newVideo.id - 1].shown = true;
-      this.shadow.querySelector("video-component").remove();
-      this.shadow
-        .querySelector(".video-carrousel")
-        .prepend(this.createVideo(newVideo));
-      this.shadow.dispatchEvent(
-        new CustomEvent("videoChange", {
-          detail: newVideo,
-          bubbles: true,
-          composed: true,
-        })
-      );
-    });
+    this.shadow.querySelector(".left").addEventListener("click", () => {this.updateVideo()});
+    this.shadow.querySelector(".right").addEventListener("click", () => {this.updateVideo()});
+  }
+
+  updateVideo() {
+    const newVideo = this.videos.find((video) => !video.shown);
+    this.videos[newVideo.id % this.nVideos].shown = false;
+    this.videos[newVideo.id - 1].shown = true;
+    this.shadow.querySelector("video-component").remove();
+    this.shadow
+      .querySelector(".video-carrousel")
+      .prepend(this.createVideo(newVideo));
+    this.shadow.dispatchEvent(
+      new CustomEvent("videoChange", {
+        detail: newVideo,
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 }

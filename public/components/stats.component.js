@@ -86,6 +86,28 @@ export class StatsComponent extends HTMLElement {
     this.render();
   }
 
+  set teamImages(teamImages) {
+    this.team1Img = teamImages[0];
+    this.team2Img = teamImages[1];
+    this.resetFields();
+    this.render();
+  }
+
+  resetFields() {
+    this.teamPrecision = [
+      {
+        total: 0,
+        aciertos: 0,
+      },
+      {
+        total: 0,
+        aciertos: 0,
+      },
+    ];
+    this.teamShots = [0, 0];
+    this.teamClearances = [0, 0];
+  }
+
   set subject(value) {
     this._subject = value;
     this._subject.subscribe((data) => {
