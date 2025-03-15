@@ -66,6 +66,8 @@ export class PollComponent extends HTMLElement {
   totalVotes = 0;
   team1Votes = 0;
   team2Votes = 0;
+  team1Img = "../assets/manchesterUnited.png";
+  team2Img = "../assets/interMilan.svg";
 
   constructor() {
     super();
@@ -76,6 +78,19 @@ export class PollComponent extends HTMLElement {
 
   connectedCallback() {
     this.render();
+  }
+
+  set teamImages(teamImages) {
+    this.team1Img = teamImages[0];
+    this.team2Img = teamImages[1];
+    this.resetFields();
+    this.render();
+  }
+
+  resetFields() {
+    this.totalVotes = 0;
+    this.team1Votes = 0;
+    this.team2Votes = 0;
   }
 
   render() {

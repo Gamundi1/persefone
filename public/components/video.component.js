@@ -8,6 +8,14 @@ export class VideoComponent extends HTMLElement {
     this.render();
   }
 
+  get videoSrc() {
+    return this.getAttribute("videoSrc");
+  }
+
+  set videoSrc(value) {
+    this.setAttribute("videoSrc", value);
+  }
+
   set subject(value) {
     this._subject = value;
   }
@@ -20,7 +28,7 @@ export class VideoComponent extends HTMLElement {
                 height: 100%;
                 }
         </style>
-              <video src="../assets/partidoFutbol.mp4" controls muted autoplay>
+              <video src=${this.videoSrc} controls>
                 <track src="../media/match-info.vtt" kind="metadata"></track>
               </video>
           `;
