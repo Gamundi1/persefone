@@ -63,6 +63,7 @@ export class VideoCarrouselComponent extends HTMLElement {
         src: "../assets/partidoFutbol.mp4",
         team1Url: "../assets/manchesterUnited.png",
         team2Url: "../assets/interMilan.svg",
+        media: "manchester_inter",
         shown: true,
       },
       {
@@ -70,6 +71,7 @@ export class VideoCarrouselComponent extends HTMLElement {
         src: "../assets/partidoFutbol.mp4",
         team1Url: "../assets/interMilan.svg",
         team2Url: "../assets/manchesterUnited.png",
+        media: "inter_manchester",
         shown: false,
       },
     ];
@@ -80,6 +82,7 @@ export class VideoCarrouselComponent extends HTMLElement {
   createVideo(video) {
     const videoComponent = document.createElement("video-component");
     videoComponent.setAttribute("videoSrc", video.src);
+    videoComponent.setAttribute("mediaSrc", video.media);
     videoComponent.subject = this._subject;
     return videoComponent;
   }

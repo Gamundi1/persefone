@@ -16,6 +16,14 @@ export class VideoComponent extends HTMLElement {
     this.setAttribute("videoSrc", value);
   }
 
+  get mediaSrc() {
+    return this.getAttribute("mediaSrc");
+  }
+
+  set mediaSrc(value) {
+    this.setAttribute("mediaSrc", value);
+  }
+
   set subject(value) {
     this._subject = value;
   }
@@ -29,7 +37,8 @@ export class VideoComponent extends HTMLElement {
                 }
         </style>
               <video src=${this.videoSrc} controls>
-                <track src="../media/match-info.vtt" kind="metadata"></track>
+                <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
+                <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="subtitle"></track>
               </video>
           `;
     this.video = this.shadow.querySelector("video track");
