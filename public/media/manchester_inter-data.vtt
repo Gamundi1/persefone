@@ -40,7 +40,7 @@ WEBVTT
 {"evento": "Tiro", "Puerta": false, "Equipo": 1}
 
 00:01:15.000 --> 00:01:16.000
-{"evento": "Corner", "Equipo": 2}
+{"evento": "Corner", "equipo": "Inter Milán", "tiempo": "18:02"}
 
 00:01:15.000 --> 00:01:16.000
 {"evento": "Pase", "Succes": true, "Equipo": 2}

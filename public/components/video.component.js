@@ -8,6 +8,22 @@ export class VideoComponent extends HTMLElement {
     this.render();
   }
 
+  get videoSrc() {
+    return this.getAttribute("videoSrc");
+  }
+
+  set videoSrc(value) {
+    this.setAttribute("videoSrc", value);
+  }
+
+  get mediaSrc() {
+    return this.getAttribute("mediaSrc");
+  }
+
+  set mediaSrc(value) {
+    this.setAttribute("mediaSrc", value);
+  }
+
   set subject(value) {
     this._subject = value;
   }
@@ -20,8 +36,9 @@ export class VideoComponent extends HTMLElement {
                 height: 100%;
                 }
         </style>
-              <video src="../assets/partidoFutbol.mp4" controls>
-                <track src="../media/match-info.vtt" kind="metadata"></track>
+              <video src=${this.videoSrc} controls>
+                <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
+                <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="subtitle"></track>
               </video>
           `;
     this.video = this.shadow.querySelector("video track");
@@ -31,7 +48,6 @@ export class VideoComponent extends HTMLElement {
       track.addEventListener("cuechange", () => {
         const cue = track.activeCues[0]?.text;
         if (cue) {
-          console.log("cue", cue);
           this._subject.next(JSON.parse(cue));
         }
       });
