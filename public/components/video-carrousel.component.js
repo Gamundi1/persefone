@@ -68,10 +68,10 @@ export class VideoCarrouselComponent extends HTMLElement {
       },
       {
         id: 2,
-        src: "../assets/partidoFutbol.mp4",
-        team1Url: "../assets/interMilan.svg",
-        team2Url: "../assets/manchesterUnited.png",
-        media: "inter_manchester",
+        src: "../assets/partidoFutbol2.mp4",
+        team1Url: "../assets/francia.svg",
+        team2Url: "../assets/argentina.png",
+        media: "francia-argentina",
         shown: false,
       },
     ];
