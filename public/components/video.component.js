@@ -47,6 +47,7 @@ export class VideoComponent extends HTMLElement {
       track.mode = "hidden";
       track.addEventListener("cuechange", () => {
         const cue = track.activeCues[0]?.text;
+        console.log(cue);
         if (cue) {
           this._subject.next(JSON.parse(cue));
         }
