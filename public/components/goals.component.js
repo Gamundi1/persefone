@@ -89,7 +89,7 @@ export class GoalsComponent extends HTMLElement {
   score2 = 0;
   team1Img = "../assets/manchesterUnited.png";
   team2Img = "../assets/interMilan.svg";
-  imagenfondo = "../assets/fondoCampo.jpg";
+  imagenfondo = "../assets/fondocampo.jpg";
 
   set teamImages(teamImages) {
     this.team1Img = teamImages[0];
