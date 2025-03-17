@@ -71,7 +71,7 @@ export class VideoCarrouselComponent extends HTMLElement {
         src: "../assets/partidoFutbol2.mp4",
         team1Url: "../assets/francia.avif",
         team2Url: "../assets/argentina.jpg",
-        media: "francia-argentina",
+        media: "francia_argentina",
         shown: false,
       },
     ];
