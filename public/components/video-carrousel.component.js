@@ -1,7 +1,7 @@
 export class VideoCarrouselComponent extends HTMLElement {
   template = () => `
     <div class='video-carrousel'>
-      <video-component class='video' videoSrc='../assets/partidoFutbol.mp4'></video-component>
+      <video-component class='video' videoSrc='../assets/partidoFutbol.mp4' mediaSrc='manchester_inter'></video-component>
       <i class="left fa-solid fa-circle-arrow-left fa-2xl"></i>
       <i class="right fa-solid fa-circle-arrow-right fa-2xl"></i>
     </div>
@@ -69,9 +69,9 @@ export class VideoCarrouselComponent extends HTMLElement {
       {
         id: 2,
         src: "../assets/partidoFutbol2.mp4",
-        team1Url: "../assets/francia.svg",
-        team2Url: "../assets/argentina.png",
-        media: "francia-argentina",
+        team1Url: "../assets/francia.avif",
+        team2Url: "../assets/argentina.jpg",
+        media: "francia_argentina",
         shown: false,
       },
     ];

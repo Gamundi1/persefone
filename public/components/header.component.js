@@ -10,7 +10,18 @@ export class HeaderComponent extends HTMLElement {
 
   render() {
     this.shadow.innerHTML = `
-            <div>CABECERA</div>
+            <style>
+              div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+              h1 {
+                color: white;
+                margin: 0;
+              }
+            </style>
+            <div> <h1>Los mejores partidos de fútbol Online 🏟️ </h1></div>
         `;
   }
 }

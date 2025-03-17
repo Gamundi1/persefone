@@ -78,7 +78,6 @@ stats-component {
     height: fit-content;
   }
   header-component {
-    background-color: var(--provisional-background-color);
     width: 100%;
     max-width: 1000px;
     height: 50px;

@@ -38,7 +38,7 @@ export class VideoComponent extends HTMLElement {
         </style>
               <video src=${this.videoSrc} controls>
                 <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
-                <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="subtitle"></track>
+                <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
               </video>
           `;
     this.video = this.shadow.querySelector("video track");
@@ -47,6 +47,7 @@ export class VideoComponent extends HTMLElement {
       track.mode = "hidden";
       track.addEventListener("cuechange", () => {
         const cue = track.activeCues[0]?.text;
+        console.log(cue);
         if (cue) {
           this._subject.next(JSON.parse(cue));
         }
