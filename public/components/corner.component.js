@@ -66,7 +66,6 @@ export class CornerComponent extends HTMLElement {
     this._subject
       .pipe(filter((data) => data.evento === "Corner"))
       .subscribe((filteredData) => {
-        console.log(filteredData);
         this.corners.push(filteredData);
         this.render();
       });
@@ -79,6 +78,11 @@ export class CornerComponent extends HTMLElement {
         `;
 
     this.drawCorners();
+  }
+
+  resetCorners() {
+    this.corners = [];
+    this.render();
   }
 
   drawCorners() {

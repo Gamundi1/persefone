@@ -10,7 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background-color: var(--body-background-color);
+  background: url("../assets/fondoPagina.jpg") no-repeat center center fixed;
 }
 
 main {
