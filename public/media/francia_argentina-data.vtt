@@ -1,0 +1,116 @@
+WEBVTT
+
+00:00:25.000 --> 00:00:27.000
+{"evento": "Inicio"}
+
+00:00:27.100 --> 00:00:27.200
+{"evento": "Pase", "Succes": true, "Equipo": 1}
+
+00:00:31.000 --> 00:00:32.000
+{"evento": "Falta", "Equipo": 2}
+
+00:00:33.800 --> 00:00:34.200
+{"evento": "Despeje", "Equipo": 1}
+
+00:00:34.600 --> 00:00:35.200
+{"evento": "Despeje", "Equipo": 1}
+
+00:00:35.600 --> 00:00:36.200
+{"evento": "Despeje", "Equipo": 1}
+
+00:00:37.000 --> 00:00:37.900
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:00:43.800 --> 00:00:45.900
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:00:52.200 --> 00:00:53.500
+{"evento": "Falta", "Equipo": 1}
+
+00:01:02.000 --> 00:01:03.800
+{"evento": "Tiro", "Puerta": true, "Equipo": 1}
+
+00:01:16.000 --> 00:01:16.600
+{"evento": "Pase", "Succes": true, "Equipo": 2}
+
+00:01:19.000 --> 00:01:19.800
+{"evento": "Despeje", "Equipo": 1}
+
+00:01:28.000 --> 00:01:29.500
+{"evento": "Falta", "Equipo": 2}
+
+00:01:54.000 --> 00:01:55.200
+{"evento": "Tiro", "Puerta": true, "Equipo": 1}
+
+00:01:56.000 --> 00:01:57.000
+{"evento": "gol", "jugador": 7, "equipo": 1}
+
+00:02:11.000 --> 00:02:12.000
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:02:12.100 --> 00:02:12.800
+{"evento": "Despeje", "Equipo": 1}
+
+00:02:14.000 --> 00:02:14.200
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:02:17.000 --> 00:02:20.200
+{"evento": "Pase", "Succes": true, "Equipo": 2}
+
+00:02:23.000 --> 00:02:25.500
+{"evento": "Falta", "Equipo": 2}
+
+00:02:36.000 --> 00:02:37.200
+{"evento": "Tiro", "Puerta": false, "Equipo": 1}
+
+00:02:40.000 --> 00:02:41.200
+{"evento": "Tiro", "Puerta": false, "Equipo": 2}
+
+00:02:41.000 --> 00:02:42.600
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:02:43.100 --> 00:02:43.800
+{"evento": "Despeje", "Equipo": 1}
+
+00:02:46.000 --> 00:02:49.600
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:02:51.000 --> 00:02:53.600
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:02:56.000 --> 00:02:57.600
+{"evento": "Pase", "Succes": false, "Equipo": 1}
+
+00:02:59.000 --> 00:03:01.600
+{"evento": "Pase", "Succes": true, "Equipo": 2}
+
+00:03:02.000 --> 00:03:03.600
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:03:15.000 --> 00:03:16.600
+{"evento": "Pase", "Succes": true, "Equipo": 1}
+
+00:03:17.100 --> 00:03:17.800
+{"evento": "Despeje", "Equipo": 2}
+
+00:03:19.000 --> 00:03:20.600
+{"evento": "Pase", "Succes": false, "Equipo": 1}
+
+00:03:22.000 --> 00:03:24.600
+{"evento": "Pase", "Succes": false, "Equipo": 2}
+
+00:03:26.000 --> 00:03:26.600
+{"evento": "Pase", "Succes": true, "Equipo": 2}
+
+00:03:28.000 --> 00:03:29.600
+{"evento": "Pase", "Succes": true, "Equipo": 1}
+
+00:03:37.000 --> 00:03:38.200
+{"evento": "Pase", "Succes": false, "Equipo": 1}
+
+00:03:40.000 --> 00:03:41.600
+{"evento": "Pase", "Succes": true, "Equipo": 1}
+
+00:03:43.000 --> 00:03:43.600
+{"evento": "Pase", "Succes": true, "Equipo": 2}
+
