@@ -42,4 +42,5 @@ videoCarrouselComponent.addEventListener("videoChange", (event) => {
   goalsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
   statsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
   pollComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+  cornerComponent.resetCorners();  
 });
