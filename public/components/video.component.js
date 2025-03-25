@@ -36,7 +36,8 @@ export class VideoComponent extends HTMLElement {
                 height: 100%;
                 }
         </style>
-              <video src=${this.videoSrc} controls>
+              <video controls>
+                <source src=${this.videoSrc}></source>
                 <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
                 <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
               </video>

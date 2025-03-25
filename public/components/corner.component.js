@@ -16,7 +16,7 @@ export class CornerComponent extends HTMLElement {
         align-items: center;
         flex-direction: column;
         box-shadow: 5px 5px 0px -1px rgba(68, 0, 255, 0.57);
-        -webkit-box-shadow: 5px 5px 0px -1px rgba(0, 255, 106, 0.57);
+        -webkit-box-shadow: 0px 0px 20px 0px rgba(225, 221, 119, 0.57);
         -moz-box-shadow: 5px 5px 0px -1px rgba(0, 98, 190, 0.57);
         width: 100%;
         height: 100%;
