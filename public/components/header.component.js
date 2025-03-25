@@ -15,10 +15,12 @@ export class HeaderComponent extends HTMLElement {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                background-color: #ccc;
               }
               h1 {
-                color: white;
                 margin: 0;
+                text-transform: uppercase;
+                font-family: 'Arial';
               }
             </style>
             <div> <h1>Los mejores partidos de fútbol Online 🏟️ </h1></div>

@@ -10,7 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background: url("../assets/fondoPagina.jpg") no-repeat center center fixed;
+  background-color: #181c14;
 }
 
 main {
@@ -75,11 +75,9 @@ stats-component {
   body {
     align-items: center;
     justify-content: space-between;
-    height: fit-content;
   }
   header-component {
     width: 100%;
-    max-width: 1000px;
     height: 50px;
     min-height: 50px;
   }
