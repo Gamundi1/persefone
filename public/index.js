@@ -7,8 +7,13 @@ import { PollComponent } from "./components/poll.component.js";
 import { StatsComponent } from "./components/stats.component.js";
 import { VideoCarrouselComponent } from "./components/video-carrousel.component.js";
 import { VideoComponent } from "./components/video.component.js";
+import { LineUpComponent } from "./components/lineup.component.js";
+import { PlayerCardComponent } from "./components/player-card.component.js";
+import { FormationComponent } from "./components/formation.component.js";
+import { PlayerInfoComponent } from "./components/player-info.component.js";
 
 const { Subject } = rxjs;
+let socket = io();
 
 const subject = new Subject();
 
@@ -21,6 +26,10 @@ customElements.define("poll-component", PollComponent);
 customElements.define("stats-component", StatsComponent);
 customElements.define("video-carrousel-component", VideoCarrouselComponent);
 customElements.define("video-component", VideoComponent);
+customElements.define("lineup-component", LineUpComponent);
+customElements.define("player-card-component", PlayerCardComponent);
+customElements.define("formation-component", FormationComponent);
+customElements.define("player-info-component", PlayerInfoComponent);
 
 const videoCarrouselComponent = document.querySelector(
   "video-carrousel-component"
@@ -37,6 +46,7 @@ const cornerComponent = document.querySelector("corner-component");
 cornerComponent.subject = subject;
 
 const pollComponent = document.querySelector("poll-component");
+pollComponent.socket = socket;
 
 videoCarrouselComponent.addEventListener("videoChange", (event) => {
   goalsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];

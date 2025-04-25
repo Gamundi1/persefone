@@ -1,0 +1,165 @@
+export class FormationComponent extends HTMLElement {
+  template = () => `
+        <section class="lineup">
+          <img class="background" src="../assets/fondoCorner.jpg" />
+          <div class="lineup-container"></div>
+          <div class="player-info"></div>
+        </section>
+      `;
+
+      // <player-info-component playerinfo="{&quot;nombre&quot;:&quot;David Beckham&quot;,&quot;edad&quot;:47,&quot;descripcion&quot;:&quot;Famoso por su habilidad con el balón, su capacidad de realizar tiros libres y su precisión en los pases. Beckham se convirtió en un ícono tanto dentro como fuera del campo.&quot;,&quot;posicion&quot;:&quot;Centrocampista&quot;,&quot;altura&quot;:&quot;1.80 m&quot;}"></player-info-component>
+
+  style = () => `
+      <style>
+          section {
+              width: 100%;
+              height: 100%;
+              display: flex;
+              position: relative;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+  
+              .background {
+              z-index: -1;
+              position: absolute;
+                  width: auto;
+                  height: 100%;
+                  transform: rotate(90deg);
+                  object-fit: contain;
+              }
+  
+              .lineup-container {
+                margin-top: 40px;
+                display: grid;
+                width: 100%;
+                height: 100%;
+                justify-items: center;
+                align-items: center;
+  
+                .player-row {
+                  justify-items: center;
+                  display: grid;
+                  width: 100%;
+                }
+  
+                player-card-component {
+                  width: min-content;
+                }
+              }
+
+              .player-info:has(player-info-component) {
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.90);
+                position: absolute;
+              }
+          }
+      </style>
+    `;
+
+  alignment = [
+    [
+      {
+        team: "Manchester United",
+        color: "#DA291C",
+        formation: [3, 4, 3, 1],
+        players: [2, 18, 23, 10, 25, 8, 7, 11, 9, 17, 20],
+      },
+      {
+        team: "interMilan",
+        color: "#40E0D0",
+        formation: [3, 3, 4, 1],
+        players: [1, 15, 29, 4, 12, 7, 20, 31, 10, 11, 9],
+      },
+    ],
+  ];
+
+  match = 0;
+  team = 0;
+
+  get lineupInfo() {
+    return this.getAttribute("lineupInfo");
+  }
+
+  set lineupInfo(val) {
+    this.setAttribute("lineupinfo", val);
+  }
+
+  static get observedAttributes() {
+    return ["lineupinfo"];
+  }
+
+  attributeChangedCallback(prop, oldValue, newValue) {
+    if (oldValue) {
+      const lineupInfo = JSON.parse(newValue);
+      this.match = lineupInfo.match;
+      this.team = lineupInfo.team;
+      this.render();
+
+    }
+  }
+
+  createFormation = () => {
+    const container = this.shadow.querySelector(".lineup-container");
+    const selectedTeam = this.alignment[this.match][this.team];
+    let playerIndex = 0;
+    const formation = selectedTeam.formation;
+    container.style.gridTemplateRows = `repeat(${formation.length}, 1fr)`;
+
+    formation.forEach((playersInRow) => {
+      const row = document.createElement("div");
+      row.classList.add("player-row");
+      row.style.gridTemplateColumns = `repeat(${playersInRow}, 1fr)`;
+
+      for (let i = 0; i < playersInRow; i++) {
+        const playerCard = document.createElement("player-card-component");
+        playerCard.addEventListener("player-data-loaded", (event) => {
+          this.showPlayerInfo(event.detail);
+        });
+        playerCard.setAttribute(
+          "playerInfo",
+          JSON.stringify({
+            playerNumber: selectedTeam.players[playerIndex],
+            team: selectedTeam.team,
+            color: selectedTeam.color,
+          })
+        );
+        playerCard.textContent = selectedTeam.players[playerIndex]; 
+        row.appendChild(playerCard);
+        playerIndex++;
+      }
+      container.appendChild(row);
+    });
+  };
+
+  showPlayerInfo = (playerInfo) => {
+    const playerInfoContainer = this.shadow.querySelector(".player-info");
+    const playerInfoComponent = document.createElement(
+      "player-info-component"
+    );
+    playerInfoComponent.setAttribute("playerInfo", JSON.stringify(playerInfo));
+    playerInfoComponent.addEventListener("info-closed", () => {
+      console.log("info-closed event triggered");
+      this.shadow.querySelector("player-info-component").remove();
+    });
+    playerInfoContainer.appendChild(playerInfoComponent);
+  }
+
+  constructor() {
+    super();
+    this.shadow = this.attachShadow({ mode: "open" });
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    this.shadow.innerHTML = `
+              ${this.style()}
+              ${this.template()}
+            `;
+    this.createFormation();
+  }
+}
