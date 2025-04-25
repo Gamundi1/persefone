@@ -23,7 +23,6 @@ export class HeaderComponent extends HTMLElement {
                 font-family: 'Arial';
               }
             </style>
-            <div> <h1>Los mejores partidos de fútbol Online 🏟️ </h1></div>
         `;
   }
 }

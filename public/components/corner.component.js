@@ -12,7 +12,6 @@ export class CornerComponent extends HTMLElement {
     <style>
       section {
         display: flex;
-        background: url("../assets/fondoCorner.jpg") no-repeat center center fixed;
         color: white;
         align-items: center;
         flex-direction: column;
