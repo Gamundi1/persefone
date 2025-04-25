@@ -80,6 +80,25 @@ export class PollComponent extends HTMLElement {
     this.render();
   }
 
+  set socket(value) {
+    this._socket = value;
+    this._socket.on("initial-values", (votes) => {
+      this.team1Votes = votes[0];
+      this.team2Votes = votes[1];
+      this.totalVotes = votes[0] + votes[1];
+      this.render();
+    });
+    this._socket.on("update-votes", (votes) => {
+      this.team1Votes = votes[0];
+      this.team2Votes = votes[1];
+      this.totalVotes++;
+      this.render();
+    });
+    this._socket.on("player-response", (response) => {
+      console.log(response);
+    });
+  }
+
   set teamImages(teamImages) {
     this.team1Img = teamImages[0];
     this.team2Img = teamImages[1];
@@ -100,20 +119,14 @@ export class PollComponent extends HTMLElement {
         `;
 
     this.shadow.querySelector("#team1-img").addEventListener("click", () => {
-      this.onUserVote("team1");
+      this.onUserVote(0);
     });
     this.shadow.querySelector("#team2-img").addEventListener("click", () => {
-      this.onUserVote("team2");
+      this.onUserVote(1);
     });
   }
 
-  onUserVote(team) {
-    this.totalVotes++;
-    if (team === "team1") {
-      this.team1Votes++;
-    } else {
-      this.team2Votes++;
-    }
-    this.render();
+  async onUserVote(team) {
+    this._socket.emit("user-vote", team);
   }
 }

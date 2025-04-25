@@ -1,10 +1,10 @@
 export class VideoCarrouselComponent extends HTMLElement {
   template = () => `
-    <div class='video-carrousel'>
+    <section class='video-carrousel'>
       <video-component class='video' videoSrc='../assets/partidoFutbol.mp4' mediaSrc='manchester_inter'></video-component>
       <i class="left fa-solid fa-circle-arrow-left fa-2xl"></i>
       <i class="right fa-solid fa-circle-arrow-right fa-2xl"></i>
-    </div>
+    </section>
     `;
   style = () => `
     <style>

@@ -19,6 +19,11 @@ main {
   gap: 5px;
 }
 
+lineup-component {
+  height: 500px;
+  margin-bottom: 75px;
+}
+
 corner-component {
   height: 148px;
 }
@@ -50,27 +55,32 @@ stats-component {
     grid-row: 1 / 2;
   }
 
+  lineup-component {
+    grid-column: 2 / 3;
+    grid-row: 2 / 6;
+    width: 493px;
+  }
+
   corner-component {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
   }
 
   goal-component {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-  }
-
-  poll-component {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
   }
 
+  poll-component {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+  }
+
   stats-component {
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
   }
 }
-
 @media (min-width: 900px) {
   body {
     align-items: center;
@@ -83,34 +93,5 @@ stats-component {
   }
   main {
     max-width: 1000px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(4, 1fr);
-
-    video-carrousel-component {
-      grid-column: 1 / 2;
-      grid-row: 1 / 3;
-    }
-
-    corner-component {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
-    }
-
-    stats-component {
-      grid-column: 2 / 3;
-      grid-row: 3 / 4;
-    }
-
-    best-moments-component {
-      background-color: var(--provisional-background-color);
-      grid-column: 1 / 3;
-      grid-row: 4 / 5;
-    }
-  }
-  footer-component {
-    background-color: var(--provisional-background-color);
-    width: 100%;
-    max-width: 1000px;
-    height: 50px;
   }
 }

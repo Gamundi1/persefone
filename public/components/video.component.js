@@ -36,7 +36,7 @@ export class VideoComponent extends HTMLElement {
                 height: 100%;
                 }
         </style>
-              <video controls>
+              <video autoplay>
                 <source src=${this.videoSrc}></source>
                 <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
                 <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
@@ -48,7 +48,6 @@ export class VideoComponent extends HTMLElement {
       track.mode = "hidden";
       track.addEventListener("cuechange", () => {
         const cue = track.activeCues[0]?.text;
-        console.log(cue);
         if (cue) {
           this._subject.next(JSON.parse(cue));
         }
