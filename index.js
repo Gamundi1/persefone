@@ -16,7 +16,6 @@ const Player = z.object({
 const app = express();
 const port = 80;
 const server = http.createServer(app);
-const io = new Server(server);
 let votes = [0, 0];
 const openai = new OpenAI();
 
@@ -24,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
+const io = new Server(server);
 
 app.post("/player-info", async (req, res) => {
   const { playerNumber, team } = req.body;
