@@ -1,5 +1,6 @@
 import express from "express";
 import { Server } from "socket.io";
+import http from "http";
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodTextFormat } from "openai/helpers/zod";
@@ -13,10 +14,8 @@ const Player = z.object({
 });
 
 const app = express();
-const http = require("https").createServer(app);
 const port = 80;
 const server = http.createServer(app);
-const io = require("socket.io")(http);
 let votes = [0, 0];
 const openai = new OpenAI();
 
@@ -26,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
+const io = new Server(server);
 
 app.post("/player-info", async (req, res) => {
   const { playerNumber, team } = req.body;
