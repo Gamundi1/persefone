@@ -1,3 +1,5 @@
+import { eventService } from "../services/event.service.js";
+
 export class VideoComponent extends HTMLElement {
   constructor() {
     super();
@@ -34,9 +36,12 @@ export class VideoComponent extends HTMLElement {
             video {
                 width: 100%;
                 height: 100%;
+                @media (min-width: 560px) {
+                  border-radius: 5px;
+                  }
                 }
         </style>
-              <video autoplay>
+              <video autoplay controls muted>
                 <source src=${this.videoSrc}></source>
                 <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
                 <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
@@ -49,7 +54,7 @@ export class VideoComponent extends HTMLElement {
       track.addEventListener("cuechange", () => {
         const cue = track.activeCues[0]?.text;
         if (cue) {
-          this._subject.next(JSON.parse(cue));
+          eventService.send(JSON.parse(cue));
         }
       });
     }

@@ -11,11 +11,18 @@ import { LineUpComponent } from "./components/lineup.component.js";
 import { PlayerCardComponent } from "./components/player-card.component.js";
 import { FormationComponent } from "./components/formation.component.js";
 import { PlayerInfoComponent } from "./components/player-info.component.js";
+import { eventService } from "./services/event.service.js";
+import { navigationService } from "./services/navigation.service.js";
 
 const { Subject } = rxjs;
 let socket = io();
 
 const subject = new Subject();
+
+const roomId = navigationService.getRoomIdFromUrl();
+
+eventService.setSubject(subject);
+eventService.setSocket(socket);
 
 customElements.define("best-moments-component", BestMomentsComponent);
 customElements.define("corner-component", CornerComponent);
@@ -34,23 +41,23 @@ customElements.define("player-info-component", PlayerInfoComponent);
 const videoCarrouselComponent = document.querySelector(
   "video-carrousel-component"
 );
-videoCarrouselComponent.subject = subject;
 
+eventService.setRoomId(roomId);
+
+const headerComponent = document.querySelector("header-component");
+headerComponent.socket = socket;
+
+// TODO: Llevar esta lógica al servicio de eventos
 const goalsComponent = document.querySelector("goals-component");
-goalsComponent.subject = subject;
-
 const statsComponent = document.querySelector("stats-component");
-statsComponent.subject = subject;
-
-const cornerComponent = document.querySelector("corner-component");
-cornerComponent.subject = subject;
-
 const pollComponent = document.querySelector("poll-component");
-pollComponent.socket = socket;
+const cornerComponent = document.querySelector("corner-component");
 
-videoCarrouselComponent.addEventListener("videoChange", (event) => {
-  goalsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
-  statsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
-  pollComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
-  cornerComponent.resetCorners();  
-});
+if (videoCarrouselComponent) {
+  videoCarrouselComponent.addEventListener("videoChange", (event) => {
+    goalsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+    statsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+    pollComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
+    cornerComponent.resetCorners();
+  });
+}

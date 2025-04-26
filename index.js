@@ -3,7 +3,12 @@ import { Server } from "socket.io";
 import http from "http";
 import OpenAI from "openai";
 import { z } from "zod";
+import path from "path";
+import { fileURLToPath } from "url";
 import { zodTextFormat } from "openai/helpers/zod";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const Player = z.object({
   nombre: z.string(),
@@ -19,13 +24,42 @@ const server = http.createServer(app);
 let votes = [0, 0];
 const openai = new OpenAI();
 
+const rooms = new Set();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
+app.use(express.static(path.join(__dirname, "public")));
 const io = new Server(server);
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/main.html"));
+});
+
+app.get("/mobile", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/mobile.html"));
+});
+
+app.get("/desktop", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/desktop.html"));
+});
+
+app.get("/create-room", (_, res) => {
+  const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+  rooms.add(roomId);
+  res.status(200).json({ roomId });
+});
+
+app.post("/join-room", (req, res) => {
+  const { roomId } = req.body;
+  if (!roomId) {
+    return res.status(421).send("Room ID is required");
+  }
+  if (!rooms.has(roomId)) {
+    return res.status(404).send("Room not found");
+  }
+  return res.status(200).json({ roomId });
+});
 
 app.post("/player-info", async (req, res) => {
   const { playerNumber, team } = req.body;
@@ -62,6 +96,14 @@ io.on("connection", (socket) => {
   socket.on("user-vote", (team) => {
     votes[team]++;
     io.emit("update-votes", votes);
+  });
+
+  socket.on("join-room", (event) => {
+    socket.join(event.roomId);
+  });
+
+  socket.on("send-event", async (event) => {
+    io.to(event.roomId).emit("receive-event", event.event);
   });
 });
 

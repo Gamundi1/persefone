@@ -45,6 +45,7 @@ export class VideoCarrouselComponent extends HTMLElement {
 
   videos = [];
   nVideos = 0;
+  
   set subject(value) {
     this._subject = value;
     this.shadow.querySelector("video-component").subject = this._subject;
@@ -60,7 +61,7 @@ export class VideoCarrouselComponent extends HTMLElement {
     this.videos = [
       {
         id: 1,
-        src: "../assets/partidoFutbol.mp4",
+        src: "../assets/partidoFutbol_720.mp4",
         team1Url: "../assets/manchesterUnited.png",
         team2Url: "../assets/interMilan.svg",
         media: "manchester_inter",

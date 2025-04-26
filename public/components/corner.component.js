@@ -1,3 +1,5 @@
+import { eventService } from "../services/event.service.js";
+
 const { filter } = rxjs;
 
 export class CornerComponent extends HTMLElement {
@@ -53,22 +55,18 @@ export class CornerComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
+    this._subject = eventService.subject
+      .pipe(filter((data) => data.evento === "Corner"))
+      .subscribe((filteredData) => {
+        this.corners.push(filteredData);
+        this.render();
+      });
   }
 
   corners = [];
 
   connectedCallback() {
     this.render();
-  }
-
-  set subject(value) {
-    this._subject = value;
-    this._subject
-      .pipe(filter((data) => data.evento === "Corner"))
-      .subscribe((filteredData) => {
-        this.corners.push(filteredData);
-        this.render();
-      });
   }
 
   render() {

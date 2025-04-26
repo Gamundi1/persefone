@@ -1,3 +1,5 @@
+import { eventService } from "../services/event.service.js";
+
 export class StatsComponent extends HTMLElement {
   template = () => `
     <section>
@@ -80,6 +82,18 @@ export class StatsComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
+
+    this._subject = eventService.subject.subscribe((data) => {
+      if (data.evento === "Pase" && data.Succes) {
+        this.updatePrecision(data.Equipo - 1, data.Succes);
+      } else if (data.evento === "Tiro" && data.Puerta) {
+        this.teamShots[data.Equipo - 1]++;
+        this.render();
+      } else if (data.evento === "Despeje") {
+        this.teamClearances[data.Equipo - 1]++;
+        this.render();
+      }
+    });
   }
 
   connectedCallback() {
@@ -106,21 +120,6 @@ export class StatsComponent extends HTMLElement {
     ];
     this.teamShots = [0, 0];
     this.teamClearances = [0, 0];
-  }
-
-  set subject(value) {
-    this._subject = value;
-    this._subject.subscribe((data) => {
-      if (data.evento === "Pase" && data.Succes) {
-        this.updatePrecision(data.Equipo - 1, data.Succes);
-      } else if (data.evento === "Tiro" && data.Puerta) {
-        this.teamShots[data.Equipo - 1]++;
-        this.render();
-      } else if (data.evento === "Despeje") {
-        this.teamClearances[data.Equipo - 1]++;
-        this.render();
-      }
-    });
   }
 
   updatePrecision(equipo, success) {

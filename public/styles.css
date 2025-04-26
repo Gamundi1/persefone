@@ -1,6 +1,4 @@
 * {
-  --provisional-background-color: #ecdfcc;
-  --body-background-color: #181c14;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,7 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background-color: #181c14;
+  background: linear-gradient(to bottom right, #2048ca, #6f6f86, #12b9be);
 }
 
 main {
@@ -52,34 +50,38 @@ stats-component {
 
   video-carrousel-component {
     grid-column: 1 / 3;
-    grid-row: 1 / 2;
+    grid-row: 1 / 3;
   }
-
-  lineup-component {
-    grid-column: 2 / 3;
-    grid-row: 2 / 6;
-    width: 493px;
-  }
-
-  corner-component {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-  }
-
-  goal-component {
-    grid-column: 1 / 2;
+  
+  goals-component {
+    grid-column: 1 / 3;
     grid-row: 3 / 4;
   }
-
+  
   poll-component {
     grid-column: 1 / 2;
     grid-row: 4 / 5;
   }
-
-  stats-component {
+  
+  corner-component {
     grid-column: 1 / 2;
     grid-row: 5 / 6;
   }
+  
+  stats-component {
+    grid-column: 1 / 2;
+    grid-row: 6 / 8;
+  }
+  
+  lineup-component {
+    grid-column: 2 / 3;
+    grid-row: 4 / 7;
+    width: 493px;
+  }
+
+
+
+
 }
 @media (min-width: 900px) {
   body {
