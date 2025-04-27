@@ -1,4 +1,5 @@
 const { filter } = rxjs;
+import { eventService } from "../services/event.service.js";
 
 export class GoalsComponent extends HTMLElement {
   template = () => `
@@ -6,14 +7,16 @@ export class GoalsComponent extends HTMLElement {
       <div class="scoreboard">
         <div class="team">
           <img id="team1-img" src="${this.team1Img}" alt="Equipo 1">
-          <div class="score" id="score1">${this.score1}</div>
-        </div>
+          </div>
 
-        <div class="vs">VS</div>
+        <div class="score-container">   
+          <div class="score" id="score1">${this.score1}</div>
+          <div class="vs">VS</div>
+          <div class="score" id="score2">${this.score2}</div>
+        </div>
 
         <div class="team">
           <img id="team2-img" src="${this.team2Img}" alt="Equipo 2">
-          <div class="score" id="score2">${this.score2}</div>
         </div>
       </div>
     </section>
@@ -27,26 +30,26 @@ export class GoalsComponent extends HTMLElement {
         justify-content: flex-start;
         align-items: center;
         width: 100%;
-        height: 100%;
-        font-family: Arial, sans-serif;
-        background: #222;
+        height: 140px;
+        background: linear-gradient(90deg,#312e81,#7e22ce);
         color: white;
         padding: 10px;
         box-sizing: border-box;
-        border-radius: 10px;
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+
+        @media (min-width: 560px) {
+          border-radius: 5px;
+        }
       }
 
       .scoreboard {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          width: 100%;
           height: 100%;
           max-width: 600px;
           padding: 10px;
           flex-grow: 1;
-          background: url('${this.imagenfondo}') no-repeat center center;
           background-size: cover;
       }
 
@@ -55,33 +58,45 @@ export class GoalsComponent extends HTMLElement {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          flex: 1;
       }
 
       .team img {
-          width: 80px;
-          height: 80px;
+          width: 50px;
+          height: 50px;
           object-fit: contain;
           margin-bottom: 5px;
           background: transparent;
+
+          @media (min-width: 560px) {
+            width: 80px;
+            height: 80px;
+          }
       }
 
-      .team img {
-          width: 70px; /* Ajusta el tamaño de la imagen del equipo 1 */
-          height: 70px; /* Ajusta el tamaño de la imagen del equipo 1 */
-      }
+      .score-container {
+        margin: 0 25px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 2em;
+        font-weight: bold;
 
-      .score {
-          font-size: 40px;
-          font-weight: bold;
-      }
-
-      .vs {
-          font-size: 30px;
-          font-weight: bold;
-          flex: 0.3;
-          text-align: center;
-      }
+        @media (min-width: 560px) {
+          margin: 0 50px;
+          font-size: 3em;
+        }
+        
+        .score {
+          margin: 0 15px;
+          color: rgb(250, 204, 21);
+          }
+          
+          .vs {
+            flex: 0.3;
+            text-align: center;
+            }
+        }
     </style>
   `;
 
@@ -89,14 +104,6 @@ export class GoalsComponent extends HTMLElement {
   score2 = 0;
   team1Img = "../assets/manchesterUnited.png";
   team2Img = "../assets/interMilan.svg";
-  imagenfondo = "../assets/fondocampo.jpg";
-
-  set teamImages(teamImages) {
-    this.team1Img = teamImages[0];
-    this.team2Img = teamImages[1];
-    this.resetFields();
-    this.render();
-  }
 
   resetFields() {
     this.score1 = 0;
@@ -110,18 +117,20 @@ export class GoalsComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
-  }
-
-  set subject(value) {
-    this._subject = value;
-    this._subject
+    this._subject = eventService.subject
       .pipe(filter((data) => data.evento === "gol"))
       .subscribe((filteredData) => {
         this.updateScore(filteredData.equipo);
       });
+    this._socket = eventService.getSocket();
+    this._socket.on("update-video", (videoData) => {
+      this.team1Img = videoData.team1Url;
+      this.team2Img = videoData.team2Url;
+      this.resetFields();
+      this.render();
+    });
   }
 
-  // Método para actualizar los goles desde el backend
   updateScore(team) {
     if (team === 1) {
       this.score1++;
@@ -132,7 +141,6 @@ export class GoalsComponent extends HTMLElement {
   }
 
   render() {
-    // Agregar el HTML de la estructura del marcador dentro del Shadow DOM
     this.shadow.innerHTML = `
         ${this.style()}
         ${this.template()}    

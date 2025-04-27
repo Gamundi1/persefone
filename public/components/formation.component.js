@@ -1,36 +1,76 @@
 export class FormationComponent extends HTMLElement {
   template = () => `
         <section class="lineup">
-          <img class="background" src="../assets/fondoCorner.jpg" />
+          <div class="lineup-markings">
+            <div class="penalty-area top"></div>
+            <div class="penalty-area bottom"></div>
+            <div class="halfway-line"></div>
+            <div class="center-circle"></div>
+          </div>
           <div class="lineup-container"></div>
           <div class="player-info"></div>
         </section>
       `;
-
-      // <player-info-component playerinfo="{&quot;nombre&quot;:&quot;David Beckham&quot;,&quot;edad&quot;:47,&quot;descripcion&quot;:&quot;Famoso por su habilidad con el balón, su capacidad de realizar tiros libres y su precisión en los pases. Beckham se convirtió en un ícono tanto dentro como fuera del campo.&quot;,&quot;posicion&quot;:&quot;Centrocampista&quot;,&quot;altura&quot;:&quot;1.80 m&quot;}"></player-info-component>
-
   style = () => `
       <style>
           section {
-              width: 100%;
-              height: 100%;
-              display: flex;
-              position: relative;
-              align-items: center;
-              justify-content: center;
-              overflow: hidden;
-  
-              .background {
-              z-index: -1;
-              position: absolute;
-                  width: auto;
-                  height: 100%;
-                  transform: rotate(90deg);
-                  object-fit: contain;
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, #16a34a, #059669);
+                border-radius: 0.5rem;
+                overflow: hidden;
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+
+              .field-markings {
+                position: absolute;
+                inset: 0;
+              }
+
+              .penalty-area {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 33%;
+                height: 10%;
+                border-radius: 0 0 0.5rem 0.5rem;
+                border: 2px solid rgba(255, 255, 255, 0.7);
+                border-top: none;
+              }
+
+              .penalty-area.top {
+                top: 0;
+              }
+
+              .penalty-area.bottom {
+                bottom: 0;
+                border-radius: 0.5rem 0.5rem 0 0;
+                border-bottom: none;
+                border-top: 2px solid rgba(255, 255, 255, 0.7);
+              }
+
+              .halfway-line {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: rgba(255, 255, 255, 0.7);
+              }
+
+              .center-circle {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 6rem;
+                height: 6rem;
+                border-radius: 50%;
+                border: 2px solid rgba(255, 255, 255, 0.7);
               }
   
               .lineup-container {
-                margin-top: 40px;
+                background: linear-gradient(#16a34a, #059669);
                 display: grid;
                 width: 100%;
                 height: 100%;
@@ -51,6 +91,7 @@ export class FormationComponent extends HTMLElement {
               .player-info:has(player-info-component) {
                 width: 100%;
                 height: 100%;
+                top: 0;
                 background-color: rgba(255, 255, 255, 0.90);
                 position: absolute;
               }
@@ -96,7 +137,6 @@ export class FormationComponent extends HTMLElement {
       this.match = lineupInfo.match;
       this.team = lineupInfo.team;
       this.render();
-
     }
   }
 
@@ -125,7 +165,7 @@ export class FormationComponent extends HTMLElement {
             color: selectedTeam.color,
           })
         );
-        playerCard.textContent = selectedTeam.players[playerIndex]; 
+        playerCard.textContent = selectedTeam.players[playerIndex];
         row.appendChild(playerCard);
         playerIndex++;
       }
@@ -135,16 +175,13 @@ export class FormationComponent extends HTMLElement {
 
   showPlayerInfo = (playerInfo) => {
     const playerInfoContainer = this.shadow.querySelector(".player-info");
-    const playerInfoComponent = document.createElement(
-      "player-info-component"
-    );
+    const playerInfoComponent = document.createElement("player-info-component");
     playerInfoComponent.setAttribute("playerInfo", JSON.stringify(playerInfo));
     playerInfoComponent.addEventListener("info-closed", () => {
-      console.log("info-closed event triggered");
       this.shadow.querySelector("player-info-component").remove();
     });
     playerInfoContainer.appendChild(playerInfoComponent);
-  }
+  };
 
   constructor() {
     super();

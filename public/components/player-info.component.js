@@ -25,7 +25,6 @@ export class PlayerInfoComponent extends HTMLElement {
                     cursor: pointer;
                     color: #f00;
                     margin: 0;
-                    font-family: Calibri;
                     margin: 10px 20px;
                 }
             }
@@ -35,7 +34,6 @@ export class PlayerInfoComponent extends HTMLElement {
                 justify-content: center;
                 padding: 30px;
                 font-size: 1.2em;
-                font-family: Calibri;
     
                 .player-info {
                     display: grid;

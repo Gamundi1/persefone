@@ -14,9 +14,6 @@ export class LineUpComponent extends HTMLElement {
       display: flex;
       position: relative;
       justify-content: space-around;
-      background-color: rgba(114, 224, 224, 0.84);
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
       height: 50px;
       width: 100%;
       transition: all 0.3s ease-in-out;
