@@ -17,7 +17,6 @@ export class FormationComponent extends HTMLElement {
                 position: relative;
                 width: 100%;
                 height: 100%;
-                min-height: 500px;
                 background: linear-gradient(to bottom, #16a34a, #059669);
                 border-radius: 0.5rem;
                 overflow: hidden;
@@ -92,6 +91,7 @@ export class FormationComponent extends HTMLElement {
               .player-info:has(player-info-component) {
                 width: 100%;
                 height: 100%;
+                top: 0;
                 background-color: rgba(255, 255, 255, 0.90);
                 position: absolute;
               }
@@ -178,7 +178,6 @@ export class FormationComponent extends HTMLElement {
     const playerInfoComponent = document.createElement("player-info-component");
     playerInfoComponent.setAttribute("playerInfo", JSON.stringify(playerInfo));
     playerInfoComponent.addEventListener("info-closed", () => {
-      console.log("info-closed event triggered");
       this.shadow.querySelector("player-info-component").remove();
     });
     playerInfoContainer.appendChild(playerInfoComponent);

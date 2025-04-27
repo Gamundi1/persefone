@@ -3,8 +3,14 @@ import { eventService } from "../services/event.service.js";
 export class StatsComponent extends HTMLElement {
   template = () => `
     <section>
-      <img class="team-img" src="${this.team1Img}" alt="Equipo 1">
+      <header>Estadísticas</header>
       <table>
+        <thead>
+          <th>${this.team1name}</th>
+          <th>Estadística</th>
+          <th>${this.team2name}</tr>
+        </thead>
+
         <tbody>
           <tr>
             <td>${Math.round((this.teamPrecision[0].aciertos / this.teamPrecision[0].total) * 100) | 0}</td>
@@ -23,22 +29,41 @@ export class StatsComponent extends HTMLElement {
           </tr>
         <tbody>
       </table>
-      <img class="team-img" src="${this.team2Img}" alt="Equipo 1">
     </section>
   `;
 
   style = () => `
   <style>
     section {
-      background-color: #EEE;
+      background: linear-gradient(90deg, #5b21b6, #7e22ce);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
       display: flex;
-      justify-content: space-around;
-      box-shadow: 5px 5px 0px -1px rgba(68, 0, 255, 0.57);
-      -webkit-box-shadow: 5px 5px 0px -1px rgba(0, 255, 106, 0.57);
-      -moz-box-shadow: 5px 5px 0px -1px rgba(0, 98, 190, 0.57);
+      flex-direction: column;
       align-items: center;
       width: 100%;
       height: 100%;
+
+      @media (min-width: 560px) {
+        border-radius: 5px;
+      }
+
+      header {
+          margin: 15px 0;
+          font-size: 25px;
+          font-weight: bold;
+          color: white;
+      }
+
+      thead {
+        border-bottom: 1px solid #fff3;
+        th {
+          color: white;
+          font-size: 14px;
+          font-weight: 600;
+          height: 20px;
+        }
+      }
+
 
       .team-img {
         width: 80px;
@@ -46,20 +71,28 @@ export class StatsComponent extends HTMLElement {
       }
 
       table {
-        width: 290px;
-        height: 95%;
+        width: 90%;
         border-collapse: collapse;
       }
 
-      td {
-        padding: 10px;
-        text-align: center;
-        border-bottom: 1px solid #000;
+      tbody {
+        td {
+          text-align: center;
+          border-bottom: 1px solid #ffffff1a;
+          font-weight: 600;
+          color: white;
+          font-size: 18px;
+        }
+  
+        tr {
+          height: 60px;
+          .stats-attribute {
+            font-weight: 700;
+            color: rgb(205, 214, 255);
+          }
+        }
       }
 
-      tr {
-        height: 40px;
-      }
     }
   </style>
   `;
@@ -76,8 +109,8 @@ export class StatsComponent extends HTMLElement {
   ];
   teamShots = [0, 0];
   teamClearances = [0, 0];
-  team1Img = "../assets/manchesterUnited.png";
-  team2Img = "../assets/interMilan.svg";
+  team1name = "Man United";
+  team2name = "Inter Milan";
 
   constructor() {
     super();
@@ -94,16 +127,16 @@ export class StatsComponent extends HTMLElement {
         this.render();
       }
     });
+
+    this._socket = eventService.getSocket();
+    this._socket.on("update-video", () => {
+      this.resetFields();
+      this.render();
+    })
+
   }
 
   connectedCallback() {
-    this.render();
-  }
-
-  set teamImages(teamImages) {
-    this.team1Img = teamImages[0];
-    this.team2Img = teamImages[1];
-    this.resetFields();
     this.render();
   }
 

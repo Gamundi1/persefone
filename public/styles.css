@@ -7,6 +7,9 @@
 body {
   display: flex;
   flex-direction: column;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   gap: 5px;
   background: linear-gradient(to bottom right, #2048ca, #6f6f86, #12b9be);
 }
@@ -18,12 +21,12 @@ main {
 }
 
 lineup-component {
-  height: 500px;
+  height: 600px;
   margin-bottom: 75px;
 }
 
 corner-component {
-  height: 148px;
+  height: 170px;
 }
 
 goal-component {
@@ -35,53 +38,48 @@ poll-component {
 }
 
 stats-component {
-  height: 148px;
+  height: 291px;
 }
 
 @media (min-width: 560px) {
   main {
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 400px 1fr 1fr;
-    gap: 13px;
+    gap: 30px;
     min-height: max-content;
+    grid-template-columns: repeat(2, 50%);
   }
 
   video-carrousel-component {
     grid-column: 1 / 3;
     grid-row: 1 / 3;
   }
-  
+
   goals-component {
     grid-column: 1 / 3;
     grid-row: 3 / 4;
   }
-  
+
   poll-component {
     grid-column: 1 / 2;
     grid-row: 4 / 5;
   }
-  
+
   corner-component {
     grid-column: 1 / 2;
     grid-row: 5 / 6;
   }
-  
+
   stats-component {
     grid-column: 1 / 2;
-    grid-row: 6 / 8;
+    grid-row: 6 / 9;
   }
-  
+
   lineup-component {
     grid-column: 2 / 3;
     grid-row: 4 / 7;
     width: 493px;
   }
-
-
-
-
 }
 @media (min-width: 900px) {
   body {

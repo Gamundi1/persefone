@@ -5,7 +5,7 @@ const { filter } = rxjs;
 export class CornerComponent extends HTMLElement {
   template = () => `
     <section>
-      <header><h1>Corners</h1></header>
+      <header>Corners</header>
       <main class="corner-container"></main>
     </section>
   `;
@@ -16,16 +16,21 @@ export class CornerComponent extends HTMLElement {
         display: flex;
         color: white;
         align-items: center;
+        background: linear-gradient(90deg,rgb(87, 114, 204),rgb(54, 95, 150));
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
         flex-direction: column;
-        box-shadow: 5px 5px 0px -1px rgba(68, 0, 255, 0.57);
-        -webkit-box-shadow: 0px 0px 20px 0px rgba(225, 221, 119, 0.57);
-        -moz-box-shadow: 5px 5px 0px -1px rgba(0, 98, 190, 0.57);
         width: 100%;
         height: 100%;
+        
+        @media (min-width: 560px) {
+          border-radius: 5px;
+        }
 
         header {
-          height: 50px;
-          line-height: 10px;
+            margin-top: 10px;
+            font-size: 25px;
+            font-weight: bold;
+            color: white;
         }
 
         .corner-container {
@@ -61,6 +66,11 @@ export class CornerComponent extends HTMLElement {
         this.corners.push(filteredData);
         this.render();
       });
+    this._socket = eventService.getSocket();
+    this._socket.on("update-video", () => {
+      this.resetCorners();
+      this.render();
+    })
   }
 
   corners = [];

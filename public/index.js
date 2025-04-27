@@ -38,26 +38,4 @@ customElements.define("player-card-component", PlayerCardComponent);
 customElements.define("formation-component", FormationComponent);
 customElements.define("player-info-component", PlayerInfoComponent);
 
-const videoCarrouselComponent = document.querySelector(
-  "video-carrousel-component"
-);
-
 eventService.setRoomId(roomId);
-
-const headerComponent = document.querySelector("header-component");
-headerComponent.socket = socket;
-
-// TODO: Llevar esta lógica al servicio de eventos
-const goalsComponent = document.querySelector("goals-component");
-const statsComponent = document.querySelector("stats-component");
-const pollComponent = document.querySelector("poll-component");
-const cornerComponent = document.querySelector("corner-component");
-
-if (videoCarrouselComponent) {
-  videoCarrouselComponent.addEventListener("videoChange", (event) => {
-    goalsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
-    statsComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
-    pollComponent.teamImages = [event.detail.team1Url, event.detail.team2Url];
-    cornerComponent.resetCorners();
-  });
-}

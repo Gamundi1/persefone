@@ -20,7 +20,7 @@ export class PollComponent extends HTMLElement {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            padding: 0 30px;
+            padding: 0 20px;
             background: linear-gradient(90deg,rgb(224, 92, 92),rgb(163, 28, 89));
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
             align-items: center;
@@ -32,7 +32,6 @@ export class PollComponent extends HTMLElement {
 
             header {
               font-size: 20px;
-              font-family: 'Calibri', sans-serif;
               font-weight: bold;
               color: white;
             }
@@ -42,6 +41,12 @@ export class PollComponent extends HTMLElement {
               justify-content: space-between;
               width: 100%;
               align-items: center;
+
+              img:hover {
+                cursor: pointer;
+                transform: scale(1.1);
+                transition: transform 0.2s ease-in-out;
+              }
 
               .poll {
                 border-radius: 20px;
@@ -71,15 +76,14 @@ export class PollComponent extends HTMLElement {
   totalVotes = 0;
   team1Votes = 0;
   team2Votes = 0;
+  videoId = 1;
   team1Img = "../assets/manchesterUnited.png";
   team2Img = "../assets/interMilan.svg";
-  userVoted = false;
+  userVoted = [false, false];
 
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
-    this.team1Img = "../assets/manchesterUnited.png";
-    this.team2Img = "../assets/interMilan.svg";
   }
 
   connectedCallback() {
@@ -97,19 +101,20 @@ export class PollComponent extends HTMLElement {
       this.totalVotes++;
       this.render();
     });
+
+    this._socket.on("update-video", (videoData, votes) => {
+      this.updateVotes(votes);
+      this.team1Img = videoData.team1Url;
+      this.team2Img = videoData.team2Url;
+      this.videoId = videoData.id;
+      this.render();
+    });
   }
 
-  set teamImages(teamImages) {
-    this.team1Img = teamImages[0];
-    this.team2Img = teamImages[1];
-    this.resetFields();
-    this.render();
-  }
-
-  resetFields() {
-    this.totalVotes = 0;
-    this.team1Votes = 0;
-    this.team2Votes = 0;
+  updateVotes(votes) {
+    this.team1Votes = votes[0];
+    this.team2Votes = votes[1];
+    this.totalVotes = votes[0] + votes[1];
   }
 
   render() {
@@ -127,9 +132,9 @@ export class PollComponent extends HTMLElement {
   }
 
   async onUserVote(team) {
-    if (!this.userVoted) {
+    if (!this.userVoted[this.videoId - 1]) {
       this.userVoted = true;
-      this._socket.emit("user-vote", team);
+      this._socket.emit("user-vote", team, this.videoId - 1);
     }
   }
 }

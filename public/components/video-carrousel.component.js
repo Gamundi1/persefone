@@ -1,3 +1,5 @@
+import { eventService } from "../services/event.service.js";
+
 export class VideoCarrouselComponent extends HTMLElement {
   template = () => `
     <section class='video-carrousel'>
@@ -61,7 +63,7 @@ export class VideoCarrouselComponent extends HTMLElement {
     this.videos = [
       {
         id: 1,
-        src: "../assets/partidoFutbol_720.mp4",
+        src: "../assets/partidoFutbol_720p.mp4",
         team1Url: "../assets/manchesterUnited.png",
         team2Url: "../assets/interMilan.svg",
         media: "manchester_inter",
@@ -84,6 +86,7 @@ export class VideoCarrouselComponent extends HTMLElement {
     const videoComponent = document.createElement("video-component");
     videoComponent.setAttribute("videoSrc", video.src);
     videoComponent.setAttribute("mediaSrc", video.media);
+    videoComponent.setAttribute("videoId", video.id);
     videoComponent.subject = this._subject;
     return videoComponent;
   }
@@ -105,12 +108,6 @@ export class VideoCarrouselComponent extends HTMLElement {
     this.shadow
       .querySelector(".video-carrousel")
       .prepend(this.createVideo(newVideo));
-    this.shadow.dispatchEvent(
-      new CustomEvent("videoChange", {
-        detail: newVideo,
-        bubbles: true,
-        composed: true,
-      })
-    );
+    eventService.changeVideo(newVideo);
   }
 }

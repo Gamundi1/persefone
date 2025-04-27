@@ -31,7 +31,6 @@ export class GoalsComponent extends HTMLElement {
         align-items: center;
         width: 100%;
         height: 140px;
-        font-family: Arial, sans-serif;
         background: linear-gradient(90deg,#312e81,#7e22ce);
         color: white;
         padding: 10px;
@@ -106,13 +105,6 @@ export class GoalsComponent extends HTMLElement {
   team1Img = "../assets/manchesterUnited.png";
   team2Img = "../assets/interMilan.svg";
 
-  set teamImages(teamImages) {
-    this.team1Img = teamImages[0];
-    this.team2Img = teamImages[1];
-    this.resetFields();
-    this.render();
-  }
-
   resetFields() {
     this.score1 = 0;
     this.score2 = 0;
@@ -130,6 +122,13 @@ export class GoalsComponent extends HTMLElement {
       .subscribe((filteredData) => {
         this.updateScore(filteredData.equipo);
       });
+    this._socket = eventService.getSocket();
+    this._socket.on("update-video", (videoData) => {
+      this.team1Img = videoData.team1Url;
+      this.team2Img = videoData.team2Url;
+      this.resetFields();
+      this.render();
+    });
   }
 
   updateScore(team) {

@@ -1,9 +1,13 @@
 import { navigationService } from "../services/navigation.service.js";
+import { eventService } from "../services/event.service.js";
 
 export class HeaderComponent extends HTMLElement {
   template = () => `
     <header>
-      <span>Football Viewer</span>
+      <div class="logo-container">
+        <img src="../assets/throphy.svg"/>
+        <span>Football Viewer</span>
+      </div>
       <button class="create-room"> Crear una sala </button>
       <form>
         <label for="join">Id de sala</label>
@@ -16,12 +20,33 @@ export class HeaderComponent extends HTMLElement {
     <style>
       header {
         height: 50px;
+        margin: 0 auto;
         display: flex;
+        padding: 0 10px;
         align-items: center;
         justify-content: space-between;
 
         @media (min-width: 560px) {
-          padding: 0 50px;
+          max-width: 80%;
+        }
+
+        .logo-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 16px;
+          font-weight: bold;
+          color: white;
+          
+          @media (min-width: 560px) { 
+            font-size: 25px;
+          }
+
+          span {
+            background: linear-gradient(90deg, #facc15, #f97316);
+            background-clip: text;
+            color: transparent;
+          }
         }
 
         .create-room {
@@ -61,49 +86,28 @@ export class HeaderComponent extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
-  }
-
-  set socket(value) {
-    this._socket = value;
-    this._socket.on("complete-connection", () => {});
+    this._socket = eventService.getSocket();
+    this._socket.on("complete-connection", () => {
+      navigationService.redirectToUrl(this.role, this.roomId);
+    })
   }
 
   connectedCallback() {
     this.render();
 
     this.shadow.querySelector(".create-room").addEventListener("click", () => {
-      fetch("/create-room", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        response.json().then((data) => {
-          this.roomId = data.roomId;
-          this.showRoomId();
-          this.role = "host";
-          navigationService.redirectToUrl(this.role, this.roomId);
-        });
-      });
+      this._socket.emit("create-room", { roomId: this.generateRandomRoomId() });
+      this.showRoomId();
+      this.role = "host";
     });
 
     this.shadow.querySelector("form").addEventListener("submit", (e) => {
       e.preventDefault();
-      fetch("/join-room", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          roomId: this.shadow.querySelector(".join-room").value,
-        }),
-      }).then((response) => {
-        response.json().then((data) => {
-          this.roomId = data.roomId;
-          this.role = "guest";
-          navigationService.redirectToUrl(this.role, this.roomId);
-        });
+      this.roomId = this.shadow.querySelector(".join-room").value;
+      this._socket.emit("join-room", {
+        roomId: this.roomId,
       });
+      this.role = "guest";
     });
   }
 
@@ -121,4 +125,9 @@ export class HeaderComponent extends HTMLElement {
             ${this.template()}
         `;
   }
+
+  generateRandomRoomId = () => {
+    this.roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return this.roomId;
+  };
 }

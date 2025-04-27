@@ -21,8 +21,14 @@ const Player = z.object({
 const app = express();
 const port = 80;
 const server = http.createServer(app);
-let votes = [0, 0];
 const openai = new OpenAI();
+let votes = [
+  [0, 0],
+  [0, 0],
+];
+const videosDuration = [166, 210];
+let videoStartTime = Date.now();
+const roomCapacity = 0;
 
 const rooms = new Set();
 
@@ -44,21 +50,15 @@ app.get("/desktop", (req, res) => {
   res.sendFile(path.join(__dirname, "public/desktop.html"));
 });
 
-app.get("/create-room", (_, res) => {
-  const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-  rooms.add(roomId);
-  res.status(200).json({ roomId });
-});
-
-app.post("/join-room", (req, res) => {
-  const { roomId } = req.body;
-  if (!roomId) {
-    return res.status(421).send("Room ID is required");
+app.get("/video", (req, res) => {
+  const { videoId } = req.query;
+  if (!videoId) {
+    return res.status(421).send("Video ID is required");
   }
-  if (!rooms.has(roomId)) {
-    return res.status(404).send("Room not found");
-  }
-  return res.status(200).json({ roomId });
+  const now = Date.now();
+  const videoCurrentTime =
+    Math.floor((now - videoStartTime) / 1000) % videosDuration[videoId];
+  return res.status(200).json({ videoCurrentTime });
 });
 
 app.post("/player-info", async (req, res) => {
@@ -91,15 +91,35 @@ app.post("/player-info", async (req, res) => {
 
 io.on("connection", (socket) => {
   setTimeout(() => {
-    socket.emit("initial-values", votes);
+    socket.emit("initial-values", votes[0]);
   }, 1000);
-  socket.on("user-vote", (team) => {
-    votes[team]++;
-    io.emit("update-votes", votes);
+
+  socket.on("user-vote", (team, video) => {
+    votes[video][team]++;
+    io.emit("update-votes", votes[video]);
   });
 
-  socket.on("join-room", (event) => {
+  socket.on("create-room", async (event) => {
+    rooms.add(event.roomId);
     socket.join(event.roomId);
+  });
+
+  socket.on("join-room", async (event) => {
+    if (rooms.has(event.roomId)) {
+      socket.join(event.roomId);
+      roomCapacity = await io.in(event.roomId).fetchSockets();
+      if (roomCapacity.length === 2) {
+        io.to(event.roomId).emit("complete-connection", event.roomId);
+      }
+    }
+  });
+
+  socket.on("change-video", (data) => {
+    if (data.roomId) {
+      io.to(data.roomId).emit("update-video", data.videoData, votes[data.videoData.id - 1]);
+    } else {
+      socket.emit("update-video", data.videoData, votes[data.videoData.id - 1]);
+    }
   });
 
   socket.on("send-event", async (event) => {
