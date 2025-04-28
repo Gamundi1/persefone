@@ -28,7 +28,7 @@ let votes = [
 ];
 const videosDuration = [166, 210];
 let videoStartTime = Date.now();
-const roomCapacity = 0;
+let roomCapacity = 0;
 
 const rooms = new Set();
 

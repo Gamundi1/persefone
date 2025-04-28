@@ -105,15 +105,29 @@ export class FormationComponent extends HTMLElement {
         team: "Manchester United",
         color: "#DA291C",
         formation: [3, 4, 3, 1],
-        players: [2, 18, 23, 10, 25, 8, 7, 11, 9, 17, 20],
+        players: [2, 18, 23, 10, 25, 8, 7, 11, 9, 17, 1],
       },
       {
         team: "interMilan",
         color: "#40E0D0",
         formation: [3, 3, 4, 1],
-        players: [1, 15, 29, 4, 12, 7, 20, 31, 10, 11, 9],
+        players: [1, 15, 29, 4, 12, 7, 20, 31, 10, 11, 1],
       },
     ],
+    [
+      {
+        team: "Francia",
+        color: "#0055A4",
+        formation: [2, 4, 4, 1],
+        players: [13, 11, 9, 7, 14, 8, 10, 6, 4, 3, 1],
+      },
+      {
+        team: "Argentina",
+        color: "aqua",
+        formation: [3, 3, 4, 1],
+        players: [11, 10, 22, 7 ,14, 15, 3, 16, 17, 2, 12],
+      }
+    ]
   ];
 
   match = 0;
