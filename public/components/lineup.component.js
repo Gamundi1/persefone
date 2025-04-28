@@ -1,3 +1,5 @@
+import { eventService } from "../services/event.service.js";
+
 export class LineUpComponent extends HTMLElement {
   template = () => `
   <div class="team-selector">
@@ -87,6 +89,25 @@ export class LineUpComponent extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.createSocket();
+  }
+
+  createSocket() {
+    this._socket = eventService.getSocket();
+    this._socket.on("update-video", (videoData) => {
+      this.team1Img = videoData.team1Url;
+      this.team2Img = videoData.team2Url;
+      this.match = videoData.id - 1;
+      this.render();
+    });
+  }
+
+  render() {
+    this.shadow.innerHTML = `
+    ${this.style()}
+    ${this.template()}
+    `;
+
     requestAnimationFrame(() => {
       this.formationComponent = this.shadow.querySelector(
         "formation-component"
@@ -101,12 +122,5 @@ export class LineUpComponent extends HTMLElement {
       });
       this.updateSelector(teamImages[0]);
     });
-  }
-
-  render() {
-    this.shadow.innerHTML = `
-    ${this.style()}
-    ${this.template()}
-    `;
   }
 }

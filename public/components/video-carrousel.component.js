@@ -3,7 +3,6 @@ import { eventService } from "../services/event.service.js";
 export class VideoCarrouselComponent extends HTMLElement {
   template = () => `
     <section class='video-carrousel'>
-      <video-component class='video' videoSrc='../assets/partidoFutbol.mp4' mediaSrc='manchester_inter'></video-component>
       <i class="left fa-solid fa-circle-arrow-left fa-2xl"></i>
       <i class="right fa-solid fa-circle-arrow-right fa-2xl"></i>
     </section>
@@ -47,7 +46,7 @@ export class VideoCarrouselComponent extends HTMLElement {
 
   videos = [];
   nVideos = 0;
-  
+
   set subject(value) {
     this._subject = value;
     this.shadow.querySelector("video-component").subject = this._subject;
@@ -59,7 +58,6 @@ export class VideoCarrouselComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
     this.videos = [
       {
         id: 1,
@@ -79,6 +77,7 @@ export class VideoCarrouselComponent extends HTMLElement {
       },
     ];
 
+    this.render();
     this.nVideos = this.videos.length;
   }
 
@@ -96,8 +95,15 @@ export class VideoCarrouselComponent extends HTMLElement {
         ${this.style()}
         ${this.template()}
     `;
-    this.shadow.querySelector(".left").addEventListener("click", () => {this.updateVideo()});
-    this.shadow.querySelector(".right").addEventListener("click", () => {this.updateVideo()});
+    this.shadow
+      .querySelector(".video-carrousel")
+      .prepend(this.createVideo(this.videos[0]));
+    this.shadow.querySelector(".left").addEventListener("click", () => {
+      this.updateVideo();
+    });
+    this.shadow.querySelector(".right").addEventListener("click", () => {
+      this.updateVideo();
+    });
   }
 
   updateVideo() {
