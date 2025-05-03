@@ -1,30 +1,31 @@
 import { eventService } from "../services/event.service.js";
+import { i18nService } from "../services/i18n.service.js";
 
 export class StatsComponent extends HTMLElement {
   template = () => `
     <section>
-      <header>Estadísticas</header>
+      <header>${i18nService.translate("stats.HEADER")}</header>
       <table>
         <thead>
           <th>${this.team1name}</th>
-          <th>Estadística</th>
+          <th>${i18nService.translate("stats.TABLE_TITLE")}</th>
           <th>${this.team2name}</tr>
         </thead>
 
         <tbody>
           <tr>
             <td>${Math.round((this.teamPrecision[0].aciertos / this.teamPrecision[0].total) * 100) | 0}</td>
-            <td class="stats-attribute">Precisión</td>
+            <td class="stats-attribute">${i18nService.translate("stats.PRECISION")}</td>
             <td>${Math.round((this.teamPrecision[1].aciertos / this.teamPrecision[1].total) * 100) | 0}</td>
           </tr>
           <tr>
             <td>${this.teamShots[0]}</td>
-            <td class="stats-attribute">Tiros a puerta</td>
+            <td class="stats-attribute">${i18nService.translate("stats.SHOOTS")}</td>
             <td>${this.teamShots[1]}</td>
           </tr>
           <tr>
             <td>${this.teamClearances[0]}</td>
-            <td class="stats-attribute">Despejes</td>
+            <td class="stats-attribute">${i18nService.translate("stats.CLEARANCES")}</td>
             <td>${this.teamClearances[1]}</td>
           </tr>
         <tbody>

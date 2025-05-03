@@ -1,21 +1,25 @@
+import { i18nService } from "./services/i18n.service.js";
 import { BestMomentsComponent } from "./components/best-moments.component.js";
 import { CornerComponent } from "./components/corner.component.js";
-import { FooterComponent } from "./components/footer.component.js";
+import { FooterComponent } from "./components/shared/footer.component.js";
 import { GoalsComponent } from "./components/goals.component.js";
-import { HeaderComponent } from "./components/header.component.js";
+import { HeaderComponent } from "./components/shared/header.component.js";
 import { PollComponent } from "./components/poll.component.js";
 import { StatsComponent } from "./components/stats.component.js";
-import { VideoCarrouselComponent } from "./components/video-carrousel.component.js";
-import { VideoComponent } from "./components/video.component.js";
-import { LineUpComponent } from "./components/lineup.component.js";
-import { PlayerCardComponent } from "./components/player-card.component.js";
-import { FormationComponent } from "./components/formation.component.js";
-import { PlayerInfoComponent } from "./components/player-info.component.js";
+import { VideoCarrouselComponent } from "./components/video/video-carrousel.component.js";
+import { VideoComponent } from "./components/video/video.component.js";
+import { LineUpComponent } from "./components/lineup/lineup.component.js";
+import { PlayerCardComponent } from "./components/lineup/player-card.component.js";
+import { FormationComponent } from "./components/lineup/formation.component.js";
+import { PlayerInfoComponent } from "./components/lineup/player-info.component.js";
 import { eventService } from "./services/event.service.js";
 import { navigationService } from "./services/navigation.service.js";
+import { LoaderComponent } from "./components/loader.component.js";
 
 const { Subject } = rxjs;
 let socket = io();
+
+await i18nService.getLanguage();
 
 const subject = new Subject();
 
@@ -37,5 +41,6 @@ customElements.define("lineup-component", LineUpComponent);
 customElements.define("player-card-component", PlayerCardComponent);
 customElements.define("formation-component", FormationComponent);
 customElements.define("player-info-component", PlayerInfoComponent);
+customElements.define("loader-component", LoaderComponent);
 
 eventService.setRoomId(roomId);

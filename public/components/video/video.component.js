@@ -1,4 +1,4 @@
-import { eventService } from "../services/event.service.js";
+import { eventService } from "../../services/event.service.js";
 
 export class VideoComponent extends HTMLElement {
   constructor() {
@@ -32,10 +32,6 @@ export class VideoComponent extends HTMLElement {
 
   set videoId(value) {
     this.setAttribute("videoId", value);
-  }
-
-  set subject(value) {
-    this._subject = value;
   }
 
   async render() {
@@ -128,6 +124,8 @@ export class VideoComponent extends HTMLElement {
             eventService.send(JSON.parse(cue.text));
           });
         }
+
+        document.querySelector("html").classList.remove("block-scroll");
       });
     }
   }
