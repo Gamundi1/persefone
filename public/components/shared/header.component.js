@@ -1,5 +1,6 @@
-import { navigationService } from "../services/navigation.service.js";
-import { eventService } from "../services/event.service.js";
+import { navigationService } from "../../services/navigation.service.js";
+import { eventService } from "../../services/event.service.js";
+import { i18nService } from "../../services/i18n.service.js";
 
 export class HeaderComponent extends HTMLElement {
   template = () => `
@@ -8,7 +9,7 @@ export class HeaderComponent extends HTMLElement {
         <img src="../assets/throphy.svg"/>
         <span>Football Viewer</span>
       </div>
-      <button class="create-room"> Crear una sala </button>
+      <button class="create-room">${i18nService.translate("header.CREATE_ROOM")}</button>
       <form>
         <label for="join">Id de sala</label>
         <input class="join-room" placeholder="Id de sala" id="join" />
@@ -77,6 +78,12 @@ export class HeaderComponent extends HTMLElement {
           border: none;
 
           }
+        .room-id {
+          font-size: 18px;
+          font-weight: bold;
+          color: white;
+          margin-left: 10px;
+        }
           </style>
   `;
 
@@ -114,7 +121,7 @@ export class HeaderComponent extends HTMLElement {
   showRoomId = () => {
     const roomIdElement = document.createElement("span");
     roomIdElement.classList.add("room-id");
-    roomIdElement.innerText = `Id de sala: ${this.roomId}`;
+    roomIdElement.innerText = `${i18nService.translate("header.ROOM_ID")}: ${this.roomId}`;
     this.shadow.querySelector("header").appendChild(roomIdElement);
     this.shadow.querySelector(".create-room").classList.add("hide");
   };

@@ -1,0 +1,12 @@
+{
+    "header.CREATE_ROOM": "Create a room",
+    "header.JOIN_ROOM": "Join a room",
+    "header.ROOM_ID": "Room ID",
+    "poll.HEADER": "¿Who will win?",
+    "corner.HEADER": "Corners",
+    "stats.HEADER": "Statistics",
+    "stats.TABLE_TITLE": "Statistic",
+    "stats.PRECISION": "Precision",
+    "stats.SHOOTS": "Shots on target",
+    "stats.CLEARANCES": "Clearances"
+}

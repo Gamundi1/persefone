@@ -4,6 +4,17 @@
   box-sizing: border-box;
 }
 
+html {
+  &.block-scroll {
+    overflow: hidden;
+    body {
+      loader-component {
+        display: block;
+      }
+    }
+  }
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -18,6 +29,12 @@ main {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+loader-component {
+  display: none;
+  position: fixed;
+  z-index: 100;
 }
 
 lineup-component {

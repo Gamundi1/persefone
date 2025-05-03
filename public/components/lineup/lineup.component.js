@@ -1,4 +1,4 @@
-import { eventService } from "../services/event.service.js";
+import { eventService } from "../../services/event.service.js";
 
 export class LineUpComponent extends HTMLElement {
   template = () => `

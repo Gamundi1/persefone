@@ -146,6 +146,7 @@ export class FormationComponent extends HTMLElement {
   }
 
   attributeChangedCallback(prop, oldValue, newValue) {
+    console.log(newValue)
     if (oldValue) {
       const lineupInfo = JSON.parse(newValue);
       this.match = lineupInfo.match;
