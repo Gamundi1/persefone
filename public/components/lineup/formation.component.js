@@ -125,9 +125,9 @@ export class FormationComponent extends HTMLElement {
         team: "Argentina",
         color: "aqua",
         formation: [3, 3, 4, 1],
-        players: [11, 10, 22, 7 ,14, 15, 3, 16, 17, 2, 12],
-      }
-    ]
+        players: [11, 10, 22, 7, 14, 15, 3, 16, 17, 2, 12],
+      },
+    ],
   ];
 
   match = 0;
@@ -146,7 +146,6 @@ export class FormationComponent extends HTMLElement {
   }
 
   attributeChangedCallback(prop, oldValue, newValue) {
-    console.log(newValue)
     if (oldValue) {
       const lineupInfo = JSON.parse(newValue);
       this.match = lineupInfo.match;

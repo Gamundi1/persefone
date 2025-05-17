@@ -60,8 +60,7 @@ export class VideoComponent extends HTMLElement {
                 }
         </style>
             <div class="video-container">
-              <video autoplay>
-                <source src=${this.videoSrc}></source>
+              <video autoplay controls>
                 <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
                 <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
               </video>
@@ -71,6 +70,9 @@ export class VideoComponent extends HTMLElement {
               </div>
             </div>
           `;
+
+    const video = this.shadow.querySelector("video");
+    const controls = this.shadow.querySelector(".video-controls");
 
     let time = await fetch(`/video?videoId=${this.videoId - 1}`, {
       method: "GET",
@@ -85,8 +87,6 @@ export class VideoComponent extends HTMLElement {
       return response.json().then((data) => data.videoCurrentTime);
     });
 
-    const video = this.shadow.querySelector("video");
-    const controls = this.shadow.querySelector(".video-controls");
     controls.querySelector(".fullscreen").addEventListener("click", () => {
       if (video.requestFullscreen) {
         video.requestFullscreen();
@@ -96,6 +96,16 @@ export class VideoComponent extends HTMLElement {
         video.msRequestFullscreen();
       }
     });
+    let player;
+    if(Hls.isSupported()) {
+      player = new Hls();
+      player.on(Hls.Events.MANIFEST_PARSED, function() {});
+      player.loadSource(`${this.videoSrc}/manifest.m3u8`);
+      player.attachMedia(video);
+    } else {
+      player = dashjs.MediaPlayer().create();
+      player.initialize(video, `${this.videoSrc}/manifest.mpd`, true);
+    }
 
     controls.querySelector(".volume").addEventListener("input", (e) => {
       video.volume = e.target.value;
