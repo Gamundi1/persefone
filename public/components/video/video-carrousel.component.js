@@ -7,6 +7,7 @@ export class VideoCarrouselComponent extends HTMLElement {
         <option value="720p">720p</option>
         <option value="1080p" selected>1080p</option>
         <option value="4k">4K</option>
+        <option value="auto">auto</option>
       </select>
       <div class="video-selector">
         <button class="video-resume selected" id="1">
@@ -158,6 +159,7 @@ export class VideoCarrouselComponent extends HTMLElement {
         team1Url: "../assets/manchesterUnited.png",
         team2Url: "../assets/interMilan.svg",
         media: "manchester_inter",
+        deferred: false
       },
       {
         id: 2,
@@ -165,7 +167,16 @@ export class VideoCarrouselComponent extends HTMLElement {
         team1Url: "../assets/francia.avif",
         team2Url: "../assets/argentina.jpg",
         media: "francia_argentina",
+        deferred: false
       },
+      {
+        id: 3,
+        src: "https://vod-cdn.lp-playback.studio/raw/jxf4iblf6wlsyor6526t4tcmtmqa/catalyst-vod-com/hls/76d75sdq2vzftaaz/index.m3u8",
+        team1Url: "../assets/francia.avif",
+        team2Url: "../assets/argentina.jpg",
+        media: "francia_argentina",
+        deferred: true
+      }
     ];
 
     this.render();
@@ -177,6 +188,7 @@ export class VideoCarrouselComponent extends HTMLElement {
     videoComponent.setAttribute("videoSrc", video.src);
     videoComponent.setAttribute("mediaSrc", video.media);
     videoComponent.setAttribute("videoId", video.id);
+    videoComponent.setAttribute("deferred", video.deferred);
     return videoComponent;
   }
 

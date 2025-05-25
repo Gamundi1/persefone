@@ -1,6 +1,43 @@
 import { eventService } from "../../services/event.service.js";
 
 export class VideoComponent extends HTMLElement {
+  template = () => `
+  <div class="video-container">
+    <video autoplay controls>
+        <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
+        <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
+    </video>
+    <div class="video-controls">
+      <button class="fullscreen"></button>
+      <input type="range" class="volume" min="0" max="1" step="0.05" value="1">
+    </div>
+  </div>
+`;
+
+  style = () => `
+    <style>
+      .video-container {
+          position: relative;
+      }
+
+      .video-controls {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        position: absolute;
+        bottom: 10px;
+      }
+
+      video {
+          width: 100%;
+          height: 100%;
+          @media (min-width: 560px) {
+            border-radius: 5px;
+            }
+      }
+    </style>  
+`;
+
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -16,6 +53,14 @@ export class VideoComponent extends HTMLElement {
 
   set videoSrc(value) {
     this.setAttribute("videoSrc", value);
+  }
+
+  get deferred() {
+    return this.getAttribute("deferred");
+  }
+
+  set deferred(value) {
+    this.setAttribute("deferred", value);
   }
 
   get mediaSrc() {
@@ -36,82 +81,32 @@ export class VideoComponent extends HTMLElement {
 
   async render() {
     this.shadow.innerHTML = `
-        <style>
-
-            .video-container {
-                position: relative;
-            }
-
-            .video-controls {
-              display: flex;
-              justify-content: flex-end;
-              width: 100%;
-              position: absolute;
-              bottom: 10px;
-
-            }
-
-            video {
-                width: 100%;
-                height: 100%;
-                @media (min-width: 560px) {
-                  border-radius: 5px;
-                  }
-                }
-        </style>
-            <div class="video-container">
-              <video autoplay controls>
-                <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
-                <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
-              </video>
-              <div class="video-controls">
-                <button class="fullscreen"></button>
-                <input type="range" class="volume" min="0" max="1" step="0.05" value="1">
-              </div>
-            </div>
+        ${this.style()}
+        ${this.template()}
           `;
-
     const video = this.shadow.querySelector("video");
-    const controls = this.shadow.querySelector(".video-controls");
 
-    let time = await fetch(`/video?videoId=${this.videoId - 1}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        videoId: this.videoId,
-      },
-    }).then((response) => {
-      if (response.status === 421) {
-        return 0;
-      }
-      return response.json().then((data) => data.videoCurrentTime);
-    });
+    if (this.deferred === "false") {
+      this.seekVideoPosition(video);
+    }
 
-    controls.querySelector(".fullscreen").addEventListener("click", () => {
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-      }
-    });
+    this.createControls(video);
+
     let player;
-    if(Hls.isSupported()) {
+    if (this.deferred === "true") {
       player = new Hls();
-      player.on(Hls.Events.MANIFEST_PARSED, function() {});
+      player.on(Hls.Events.MANIFEST_PARSED, function () {});
+      player.loadSource(`${this.videoSrc}`);
+      player.attachMedia(video);
+    } else if (Hls.isSupported()) {
+      player = new Hls();
+      player.on(Hls.Events.MANIFEST_PARSED, function () {});
       player.loadSource(`${this.videoSrc}/manifest.m3u8`);
       player.attachMedia(video);
     } else {
       player = dashjs.MediaPlayer().create();
       player.initialize(video, `${this.videoSrc}/manifest.mpd`, true);
     }
-
-    controls.querySelector(".volume").addEventListener("input", (e) => {
-      video.volume = e.target.value;
-    });
-
-    video.currentTime = time;
 
     const trackElement = this.shadow.querySelector("video track").track;
 
@@ -124,7 +119,7 @@ export class VideoComponent extends HTMLElement {
         }
       });
 
-      video.addEventListener("seeked", () => {
+      video.addEventListener("canplaythrough", () => {
         const activeCues = Array.from(trackElement.cues).filter((cue) => {
           return cue.startTime <= video.currentTime;
         });
@@ -138,5 +133,39 @@ export class VideoComponent extends HTMLElement {
         document.querySelector("html").classList.remove("block-scroll");
       });
     }
+  }
+
+  async seekVideoPosition(video) {
+    let time = await fetch(`/video?videoId=${this.videoId - 1}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        videoId: this.videoId,
+      },
+    }).then((response) => {
+      if (response.status === 421) {
+        return 0;
+      }
+      return response.json().then((data) => data.videoCurrentTime);
+    });
+    video.currentTime = time;
+  }
+
+  createControls(video) {
+    const controls = this.shadow.querySelector(".video-controls");
+    controls.querySelector(".fullscreen").addEventListener("click", () => {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    });
+
+    controls.querySelector(".volume").addEventListener("input", (e) => {
+      video.volume = e.target.value;
+    });
+
   }
 }
