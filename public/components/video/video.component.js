@@ -8,7 +8,6 @@ export class VideoComponent extends HTMLElement {
         <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
     </video>
     <div class="video-controls">
-      <button class="fullscreen"></button>
       <input type="range" class="volume" min="0" max="1" step="0.05" value="1">
     </div>
   </div>
@@ -67,6 +66,14 @@ export class VideoComponent extends HTMLElement {
     return this.getAttribute("mediaSrc");
   }
 
+  set quality(value) {
+    this.setAttribute("quality", value);
+  }
+
+  get quality() {
+    return this.getAttribute("quality");
+  }
+
   set mediaSrc(value) {
     this.setAttribute("mediaSrc", value);
   }
@@ -91,22 +98,7 @@ export class VideoComponent extends HTMLElement {
     }
 
     this.createControls(video);
-
-    let player;
-    if (this.deferred === "true") {
-      player = new Hls();
-      player.on(Hls.Events.MANIFEST_PARSED, function () {});
-      player.loadSource(`${this.videoSrc}`);
-      player.attachMedia(video);
-    } else if (Hls.isSupported()) {
-      player = new Hls();
-      player.on(Hls.Events.MANIFEST_PARSED, function () {});
-      player.loadSource(`${this.videoSrc}/manifest.m3u8`);
-      player.attachMedia(video);
-    } else {
-      player = dashjs.MediaPlayer().create();
-      player.initialize(video, `${this.videoSrc}/manifest.mpd`, true);
-    }
+    this.createVideoElement(video);
 
     const trackElement = this.shadow.querySelector("video track").track;
 
@@ -135,6 +127,32 @@ export class VideoComponent extends HTMLElement {
     }
   }
 
+  createVideoElement(video) {
+    let player;
+    if (this.deferred === "true") {
+      player = new Hls();
+      player.on(Hls.Events.MANIFEST_PARSED, function () {});
+      player.loadSource(`${this.videoSrc}`);
+      player.attachMedia(video);
+    } else if (Hls.isSupported()) {
+      player = new Hls();
+      player.on(Hls.Events.MANIFEST_PARSED, () => {
+        player.currentLevel = parseInt(this.quality, 10);
+      });
+      player.loadSource(`${this.videoSrc}/manifest.m3u8`);
+      player.attachMedia(video);
+    } else {
+      player = dashjs.MediaPlayer().create();
+      if (this.quality !== "-1") {
+        dashPlayer.updateSettings({
+          streaming: { abr: { autoSwitchBitrate: { video: false } } },
+        });
+        dashPlayer.setQualityFor("video", parseInt(this.quality, 10));
+      }
+      player.initialize(video, `${this.videoSrc}/manifest.mpd`, true);
+    }
+  }
+
   async seekVideoPosition(video) {
     let time = await fetch(`/video?videoId=${this.videoId - 1}`, {
       method: "GET",
@@ -153,19 +171,8 @@ export class VideoComponent extends HTMLElement {
 
   createControls(video) {
     const controls = this.shadow.querySelector(".video-controls");
-    controls.querySelector(".fullscreen").addEventListener("click", () => {
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-      }
-    });
-
     controls.querySelector(".volume").addEventListener("input", (e) => {
       video.volume = e.target.value;
     });
-
   }
 }

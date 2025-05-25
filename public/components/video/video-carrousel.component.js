@@ -4,26 +4,26 @@ export class VideoCarrouselComponent extends HTMLElement {
   template = () => `
     <section class='video-carrousel'>
       <select class="quality-select">
-        <option value="720p">720p</option>
-        <option value="1080p" selected>1080p</option>
-        <option value="4k">4K</option>
-        <option value="auto">auto</option>
+        <option value="1">720p</option>
+        <option value="2">1080p</option>
+        <option value="3">4K</option>
+        <option value="-1" selected>auto</option>
       </select>
       <div class="video-selector">
         <button class="video-resume selected" id="1">
-          <span class="video-resume__live-stream">En directo</span>
+          <span class="video-resume__live-stream">Adaptativo</span>
           <div class="video-resume__teams">
             <p>Manchester United</p><span>VS</span><p>Inter Milán</p></span>
           </div>
         </button>
         <button class="video-resume" id="2">
-          <span class="video-resume__live-stream">En directo</span>
+          <span class="video-resume__live-stream">Adaptativo</span>
           <div class="video-resume__teams">
             <p>Francia</p><span>VS</span><p>Argentina</p></span>
           </div>
         </button>
         <button class="video-resume" id="3">
-          <span class="video-resume__deferred">Diferido</span>
+          <span class="video-resume__deferred">BlockChain</span>
           <div class="video-resume__teams">
             <p>Manchester United</p><span>VS</span><p>Inter Milán</p></span>
           </div>
@@ -42,9 +42,11 @@ export class VideoCarrouselComponent extends HTMLElement {
         --select-border-color: #fff;
         background-color: transparent;
         border: none;
+        margin-bottom: 15px;
         color: white;
+        font-size: 20px;
         border-bottom: 2px solid var(--select-border-color);
-        height: 30px;
+        height: 40px;
 
 
         & option {
@@ -60,13 +62,28 @@ export class VideoCarrouselComponent extends HTMLElement {
       .video-selector {
         width: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        height: 150px;
+        margin-bottom: 20px;
+        gap: 10px;
+        
+        @media (min-width: 600px) {
+          flex-direction: row;
+
+          .video-resume {
+            width: 33%;
+            border-radius: 5px;
+
+            .video-resume__teams {
+              margin-top: 10px;
+            }
+          }
+        }
 
         .video-resume {
-          width: 33%;
+          height: 150px;
+          width: 100%;
           cursor: pointer;
-          border-radius: 5px;
           border: none;
           display: flex;
           flex-direction: column;
@@ -78,8 +95,8 @@ export class VideoCarrouselComponent extends HTMLElement {
           }
 
           .video-resume__live-stream {
-            width: fit-content;
             margin: 10px 0 0 15px;
+            width: fit-content;
             color: white;
             position: relative;
             font-size: 14px;
@@ -116,7 +133,7 @@ export class VideoCarrouselComponent extends HTMLElement {
 
 
           .video-resume__teams {
-            margin-top: 10px;
+            margin-top: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -155,19 +172,21 @@ export class VideoCarrouselComponent extends HTMLElement {
     this.videos = [
       {
         id: 1,
-        src: "../assets/partidoFutbol2_out",
+        src: "../assets/partidoFutbol2_auto",
         team1Url: "../assets/manchesterUnited.png",
         team2Url: "../assets/interMilan.svg",
         media: "manchester_inter",
-        deferred: false
+        deferred: false,
+        quality: -1,
       },
       {
         id: 2,
-        src: "../assets/partidoFutbol2_out",
+        src: "../assets/partidoFutbol2_auto",
         team1Url: "../assets/francia.avif",
         team2Url: "../assets/argentina.jpg",
         media: "francia_argentina",
-        deferred: false
+        deferred: false,
+        quality: -1,
       },
       {
         id: 3,
@@ -175,8 +194,9 @@ export class VideoCarrouselComponent extends HTMLElement {
         team1Url: "../assets/francia.avif",
         team2Url: "../assets/argentina.jpg",
         media: "francia_argentina",
-        deferred: true
-      }
+        deferred: true,
+        quality: -1,
+      },
     ];
 
     this.render();
@@ -189,6 +209,7 @@ export class VideoCarrouselComponent extends HTMLElement {
     videoComponent.setAttribute("mediaSrc", video.media);
     videoComponent.setAttribute("videoId", video.id);
     videoComponent.setAttribute("deferred", video.deferred);
+    videoComponent.setAttribute("quality", video.quality);
     return videoComponent;
   }
 
@@ -206,12 +227,12 @@ export class VideoCarrouselComponent extends HTMLElement {
         this.updateVideo(parseInt(button.id));
       });
     });
-    
+
     this.shadow
       .querySelector(".quality-select")
       .addEventListener("change", (e) => {
         this.videos.forEach((video) => {
-          video.src = video.src.replace(/720p|1080p|4k/, e.target.value);
+          video.quality = e.target.value;
         });
         document.querySelector("html").classList.add("block-scroll");
         this.shadow.querySelector("video-component").remove();
@@ -223,7 +244,7 @@ export class VideoCarrouselComponent extends HTMLElement {
 
   updateVideo(id) {
     document.querySelector("html").classList.add("block-scroll");
-    const buttons = this.shadow.querySelectorAll(".video-resume")
+    const buttons = this.shadow.querySelectorAll(".video-resume");
     buttons.forEach((button) => {
       button.classList.remove("selected");
     });
