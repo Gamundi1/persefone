@@ -79,7 +79,7 @@ export class PollComponent extends HTMLElement {
   videoId = 1;
   team1Img = "../assets/manchesterUnited.png";
   team2Img = "../assets/interMilan.svg";
-  userVoted = [false, false];
+  userVoted = [false, false, false];
 
   constructor() {
     super();

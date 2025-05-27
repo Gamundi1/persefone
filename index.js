@@ -25,8 +25,9 @@ const openai = new OpenAI();
 let votes = [
   [0, 0],
   [0, 0],
+  [0, 0]
 ];
-const videosDuration = [166, 210];
+const videosDuration = [166, 210, 210];
 let videoStartTime = Date.now();
 let roomCapacity = 0;
 
