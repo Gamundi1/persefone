@@ -4,6 +4,7 @@ export class VideoCarrouselComponent extends HTMLElement {
   template = () => `
     <section class='video-carrousel'>
       <select class="quality-select">
+        <option value="0">360p</option>
         <option value="1">720p</option>
         <option value="2">1080p</option>
         <option value="3">4K</option>
@@ -172,7 +173,7 @@ export class VideoCarrouselComponent extends HTMLElement {
     this.videos = [
       {
         id: 1,
-        src: "../assets/partidoFutbol2_auto",
+        src: "../assets/out_auto",
         team1Url: "../assets/manchesterUnited.png",
         team2Url: "../assets/interMilan.svg",
         media: "manchester_inter",
