@@ -7,9 +7,6 @@ export class VideoComponent extends HTMLElement {
         <track src="../media/${this.mediaSrc}-data.vtt" kind="metadata"></track>
         <track src="../media/${this.mediaSrc}-subtitle.vtt" kind="captions" srcLang='es' default label='Español'></track>
     </video>
-    <div class="video-controls">
-      <input type="range" class="volume" min="0" max="1" step="0.05" value="1">
-    </div>
   </div>
 `;
 
@@ -97,7 +94,6 @@ export class VideoComponent extends HTMLElement {
       this.seekVideoPosition(video);
     }
 
-    this.createControls(video);
     this.createVideoElement(video);
 
     const trackElement = this.shadow.querySelector("video track").track;
@@ -167,12 +163,5 @@ export class VideoComponent extends HTMLElement {
       return response.json().then((data) => data.videoCurrentTime);
     });
     video.currentTime = time;
-  }
-
-  createControls(video) {
-    const controls = this.shadow.querySelector(".video-controls");
-    controls.querySelector(".volume").addEventListener("input", (e) => {
-      video.volume = e.target.value;
-    });
   }
 }
